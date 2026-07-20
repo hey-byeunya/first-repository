@@ -1,0 +1,47 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "tissue-game",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["http-server", "flying-tissue", "-p", "8085", "-c-1"],
+      "port": 8085
+    },
+    {
+      "name": "tetris",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8934", "--directory", "tetris"],
+      "port": 8934
+    },
+    {
+      "name": "prd-writer",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8935", "--directory", "service-prd-writer"],
+      "port": 8935
+    },
+    {
+      "name": "reading-log-prd",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8936", "--directory", "reading-log-prd"],
+      "port": 8936
+    },
+    {
+      "name": "dessert-shop-prd",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8937", "--directory", "dessert-shop-prd"],
+      "port": 8937
+    },
+    {
+      "name": "dessert-shop-app",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8938", "--directory", "dessert-shop-app"],
+      "port": 8938
+    },
+    {
+      "name": "backend-design",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8939", "--directory", "backend-design"],
+      "port": 8939
+    }
+  ]
+}
