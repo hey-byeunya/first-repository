@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수제 디저트 쇼핑몰 — PRD</title>
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --surface: #ffffff;
+      --border: #e8e5e0;
+      --text: #1a1a1a;
+      --text-secondary: #555;
+      --text-muted: #888;
+      --accent: #d97706;
+      --accent-bg: rgba(217,119,6,0.06);
+      --code-bg: #f3f0eb;
+      --table-stripe: #faf8f5;
+      --shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111114;
+        --surface: #1a1a1f;
+        --border: #2a2a30;
+        --text: #e4e4e7;
+        --text-secondary: #a1a1aa;
+        --text-muted: #71717a;
+        --accent: #f59e0b;
+        --accent-bg: rgba(245,158,11,0.08);
+        --code-bg: #1e1e24;
+        --table-stripe: #16161a;
+        --shadow: 0 1px 4px rgba(0,0,0,0.3);
+      }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 40px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 24px;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    ul, ol {
+      margin-bottom: 16px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    li strong {
+      color: var(--text);
+    }
+
+    .section {
+      margin-bottom: 8px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 16px 0;
+      box-shadow: var(--shadow);
+    }
+
+    .card p:last-child, .card ol:last-child, .card ul:last-child {
+      margin-bottom: 0;
+    }
+
+    .highlight {
+      background: var(--accent-bg);
+      border-left: 3px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+    }
+
+    .highlight p {
+      margin-bottom: 0;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+      overflow-x: auto;
+      display: block;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+    }
+
+    tbody td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: var(--table-stripe);
+    }
+
+    code {
+      font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 16px 0;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--accent-bg);
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0 28px;
+    }
+
+    .flow-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      box-shadow: var(--shadow);
+      line-height: 1.4;
+    }
+
+    .flow-arrow {
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    .wireframe {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      background: var(--surface);
+      margin: 16px 0 28px;
+    }
+
+    .wf-title {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    .wf-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+
+    .wf-box {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px;
+      white-space: nowrap;
+    }
+
+    .wf-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .wf-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .wf-button {
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-bg);
+      border: 1px solid var(--accent);
+      height: 38px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <span class="tag">Service PRD</span>
+    <h1>수제 디저트 쇼핑몰 — PRD</h1>
+
+    <h2>서비스 한 줄 요약</h2>
+    <div class="card">
+      <h3>무엇을</h3>
+      <p>수제 케이크를 중심으로 한 디저트를 판매하는 온라인 쇼핑몰.</p>
+
+      <h3>누구를 위해</h3>
+      <p>선물용 케이크를 찾는 20~30대.</p>
+
+      <h3>핵심 화면 3개</h3>
+      <ul>
+        <li><strong>상품 목록</strong> — 케이크·쿠키·음료를 훑어보는 화면</li>
+        <li><strong>상품 상세</strong> — 사진·설명·가격·품절 여부를 확인하는 화면</li>
+        <li><strong>장바구니</strong> — 담은 상품을 확인하고 수량을 조절하는 화면</li>
+      </ul>
+    </div>
+
+    <h2>기획 의도</h2>
+    <p>지금은 수제 디저트를 SNS DM이나 지인 소개로만 판매하고 있어, 판매 채널이 정식 쇼핑몰 형태로 존재하지 않는다. 그 결과 "여자친구 생일 선물", "부모님 답례 케이크"처럼 <strong>선물 목적으로 케이크를 검색하는 잠재 고객</strong>에게 전혀 노출되지 않고, 검색해도 뭘 파는지·얼마인지·지금 주문 가능한지 확인할 방법이 없어 결국 눈에 잘 띄는 프랜차이즈 케이크로 발길을 돌리게 된다.</p>
+    <p>이 서비스는 "선물용 케이크를 검색하다가 우연히 발견해도, 목록만 보고 바로 어떤 디저트가 있는지·구매 가능한지 파악할 수 있는" 온라인 창구를 만들어 이 문제를 해결한다.</p>
+
+    <h2>목표</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>목표</th>
+          <th>지표</th>
+          <th>비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>선물 검색 유입 확보</td>
+          <td>"케이크 선물" 등 관련 키워드 검색 노출 수, 월 방문자 수</td>
+          <td>상품 상세 페이지가 검색엔진에 색인되어야 측정 가능</td>
+        </tr>
+        <tr>
+          <td>상품 탐색 → 장바구니 전환</td>
+          <td>상품 상세 조회 대비 장바구니 담기 비율</td>
+          <td>이번 단계에서 프론트엔드 이벤트로 측정</td>
+        </tr>
+        <tr>
+          <td>(다음 단계) 실제 구매 전환</td>
+          <td>장바구니 대비 결제 완료 비율</td>
+          <td>결제 기능이 붙기 전까지는 측정 대상 아님</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>개발 범위</h2>
+    <h3>이번에 할 것</h3>
+    <ul>
+      <li>상품 목록 화면 (카테고리 필터: 케이크 / 쿠키 / 음료)</li>
+      <li>상품 상세 화면 (사진, 설명, 가격, 품절 여부)</li>
+      <li>장바구니 화면 (수량 조절, 삭제, 합계 금액 계산)</li>
+      <li>목업 데이터 기반의 프론트엔드 구현 (실제 DB 연동 없음)</li>
+    </ul>
+    <h3>이번에 안 할 것 (Out of scope)</h3>
+    <ul>
+      <li>실제 결제 연동 (토스페이먼츠 등 PG사 연동)</li>
+      <li>회원가입 / 로그인</li>
+      <li>주문 내역 조회, 배송 조회</li>
+      <li>실제 데이터베이스 연동 — 지금은 목업 데이터만 사용</li>
+      <li>관리자용 상품 등록 · 재고 관리 화면</li>
+    </ul>
+
+    <h2>요구사항</h2>
+    <ol>
+      <li>선물용 케이크를 찾는 유저가 원하는 상품을 빠르게 훑어보고 싶어서, 상품 목록에서 카테고리(케이크/쿠키/음료)로 필터링할 수 있어야 한다.</li>
+      <li>구매를 고민하는 유저가 상품이 품절인지 미리 알고 싶어서, 목록과 상세 화면 모두에서 품절 여부를 바로 확인할 수 있어야 한다.</li>
+      <li>선물 받을 사람에게 어울리는지 확인하고 싶은 유저가, 상품 상세 화면에서 사진과 상세 설명·가격을 볼 수 있어야 한다.</li>
+      <li>여러 개를 담아 한 번에 사고 싶은 유저가, 장바구니에서 상품 수량을 조절하고 합계 금액을 확인할 수 있어야 한다.</li>
+      <li>실수로 담은 상품을 빼고 싶은 유저가, 장바구니에서 상품을 삭제할 수 있어야 한다.</li>
+      <li>검색으로 유입된 유저가 원하는 상품 페이지에 바로 도달하고 싶어서, 상품 상세 페이지가 검색 결과에 노출되어야 한다(SEO를 고려한 서버 렌더링 필요).</li>
+    </ol>
+
+    <h2>주요 화면 및 프로세스</h2>
+    <div class="flow">
+      <div class="flow-box">구글 검색<br>"케이크 선물"</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box">상품 목록</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box">상품 상세</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box">장바구니</div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box" style="opacity:.6;">(다음 단계)<br>결제</div>
+    </div>
+
+    <div class="wireframe">
+      <div class="wf-title">상품 목록 화면</div>
+      <div class="wf-row">
+        <div class="wf-box" style="width:60px;height:24px;">로고</div>
+        <div class="wf-box" style="flex:1;height:24px;">검색</div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-box" style="border-radius:999px;height:24px;padding:6px 14px;">전체</div>
+        <div class="wf-box" style="border-radius:999px;height:24px;padding:6px 14px;">케이크</div>
+        <div class="wf-box" style="border-radius:999px;height:24px;padding:6px 14px;">쿠키</div>
+        <div class="wf-box" style="border-radius:999px;height:24px;padding:6px 14px;">음료</div>
+      </div>
+      <div class="wf-grid">
+        <div class="wf-card">
+          <div class="wf-box" style="height:70px;">이미지</div>
+          <div class="wf-box" style="height:10px;width:70%;"></div>
+          <div class="wf-box" style="height:10px;width:40%;"></div>
+        </div>
+        <div class="wf-card">
+          <div class="wf-box" style="height:70px;">이미지</div>
+          <div class="wf-box" style="height:10px;width:70%;"></div>
+          <div class="wf-box" style="height:10px;width:40%;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wireframe">
+      <div class="wf-title">상품 상세 화면</div>
+      <div class="wf-row">
+        <div class="wf-box" style="height:22px;padding:6px 12px;">← 목록으로</div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-box" style="width:100%;height:140px;">상품 이미지</div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-box" style="height:16px;width:50%;"></div>
+        <div class="wf-box" style="height:20px;padding:4px 10px;">품절</div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-box" style="height:10px;width:100%;"></div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-box" style="height:10px;width:80%;"></div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-box wf-button" style="width:100%;">장바구니 담기</div>
+      </div>
+    </div>
+
+    <div class="wireframe">
+      <div class="wf-title">장바구니 화면</div>
+      <div class="wf-row">
+        <div class="wf-box" style="width:40px;height:40px;">img</div>
+        <div class="wf-box" style="height:12px;flex:1;"></div>
+        <div class="wf-box" style="width:70px;height:28px;">– 1 +</div>
+        <div class="wf-box" style="width:28px;height:28px;">🗑</div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-box" style="width:40px;height:40px;">img</div>
+        <div class="wf-box" style="height:12px;flex:1;"></div>
+        <div class="wf-box" style="width:70px;height:28px;">– 1 +</div>
+        <div class="wf-box" style="width:28px;height:28px;">🗑</div>
+      </div>
+      <div class="wf-row" style="justify-content:flex-end;">
+        <div class="wf-box" style="width:150px;height:24px;font-weight:700;">합계 00,000원</div>
+      </div>
+      <div class="wf-row">
+        <div class="wf-box wf-button" style="width:100%;">주문하기 (추후 연동)</div>
+      </div>
+    </div>
+
+    <h2>추천 프레임워크</h2>
+
+    <h3>조건</h3>
+    <div class="section">
+      <span class="badge">비전공자</span>
+      <span class="badge">SEO 노출 중요 (선물 검색 유입)</span>
+      <span class="badge">자료·예제 많음</span>
+      <span class="badge">결제·주문 백엔드 확장</span>
+    </div>
+
+    <h3>추천</h3>
+    <div class="highlight">
+      <p>Next.js + Supabase</p>
+    </div>
+
+    <h3>왜 이걸 골랐나</h3>
+    <ol>
+      <li>상품 목록·상세 페이지를 SSR/SSG로 완성된 HTML로 내려줄 수 있어, "선물용 케이크" 같은 검색어로 유입되길 원하는 이 서비스의 핵심 목표에 직접 맞아떨어진다.</li>
+      <li>React 자체의 학습 곡선은 있지만, 비전공자가 막혔을 때 검색이나 AI 도움으로 뚫고 나가기엔 Next.js만큼 예제가 풍부한 프레임워크가 없어 이 단점이 상쇄된다.</li>
+      <li>장바구니까지는 프론트엔드 상태로 처리하고, 이후 결제·주문은 Next.js API Route와 Supabase(주문 테이블)로 자연스럽게 얹을 수 있어 지금 구조를 갈아엎지 않고 확장할 수 있다.</li>
+    </ol>
+
+    <h2>목업 데이터</h2>
+    <p>상품 목록 화면에 쓸 가짜 데이터 6개.</p>
+    <pre><code>[
+  {
+    "id": 1,
+    "name": "딸기 생크림 케이크",
+    "price": 32000,
+    "category": "케이크",
+    "image": "생크림 위에 신선한 딸기를 가득 올린 4호 케이크",
+    "soldOut": false
+  },
+  {
+    "id": 2,
+    "name": "초콜릿 가나슈 케이크",
+    "price": 35000,
+    "category": "케이크",
+    "image": "진한 다크 초콜릿 가나슈로 코팅한 케이크",
+    "soldOut": false
+  },
+  {
+    "id": 3,
+    "name": "수제 버터쿠키 (10입)",
+    "price": 12000,
+    "category": "쿠키",
+    "image": "고소한 버터 향이 나는 수제 쿠키 10개 세트",
+    "soldOut": false
+  },
+  {
+    "id": 4,
+    "name": "초코칩 쿠키 (5입)",
+    "price": 9000,
+    "category": "쿠키",
+    "image": "진한 초코칩이 듬뿍 박힌 쿠키 5개 세트",
+    "soldOut": true
+  },
+  {
+    "id": 5,
+    "name": "콜드브루 라떼",
+    "price": 6000,
+    "category": "음료",
+    "image": "부드러운 우유와 어우러진 콜드브루 라떼",
+    "soldOut": false
+  },
+  {
+    "id": 6,
+    "name": "얼그레이 밀크티",
+    "price": 6500,
+    "category": "음료",
+    "image": "은은한 얼그레이 향이 나는 밀크티",
+    "soldOut": false
+  }
+]</code></pre>
+  </div>
+</body>
+</html>

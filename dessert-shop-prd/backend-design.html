@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수제 디저트 쇼핑몰 — 백엔드 설계 (Supabase)</title>
+  <style>
+    :root {
+      --bg: #faf9f7;
+      --surface: #ffffff;
+      --border: #e8e5e0;
+      --text: #1a1a1a;
+      --text-secondary: #555;
+      --text-muted: #888;
+      --accent: #d97706;
+      --accent-bg: rgba(217,119,6,0.06);
+      --code-bg: #f3f0eb;
+      --table-stripe: #faf8f5;
+      --shadow: 0 1px 4px rgba(0,0,0,0.04);
+      --ok: #16a34a;
+      --warn: #dc2626;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111114;
+        --surface: #1a1a1f;
+        --border: #2a2a30;
+        --text: #e4e4e7;
+        --text-secondary: #a1a1aa;
+        --text-muted: #71717a;
+        --accent: #f59e0b;
+        --accent-bg: rgba(245,158,11,0.08);
+        --code-bg: #1e1e24;
+        --table-stripe: #16161a;
+        --shadow: 0 1px 4px rgba(0,0,0,0.3);
+        --ok: #4ade80;
+        --warn: #f87171;
+      }
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrapper {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 40px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-top: 48px;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    h2 .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--accent-bg);
+      font-size: 13px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    p {
+      margin-bottom: 14px;
+      color: var(--text-secondary);
+    }
+
+    ul, ol {
+      margin-bottom: 16px;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      color: var(--text-secondary);
+    }
+
+    li strong {
+      color: var(--text);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 24px;
+      margin: 16px 0;
+      box-shadow: var(--shadow);
+    }
+
+    .highlight {
+      background: var(--accent-bg);
+      border-left: 3px solid var(--accent);
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+    }
+
+    .highlight p {
+      margin-bottom: 0;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 14px;
+      overflow-x: auto;
+      display: block;
+    }
+
+    thead th {
+      text-align: left;
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border-bottom: 2px solid var(--border);
+    }
+
+    tbody td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: var(--table-stripe);
+    }
+
+    code {
+      font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+      background: var(--code-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      margin: 16px 0;
+      font-size: 12.5px;
+      line-height: 1.7;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: var(--text-secondary);
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .checklist {
+      list-style: none;
+      padding-left: 0;
+      margin: 16px 0;
+    }
+
+    .checklist li {
+      display: flex;
+      gap: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+    }
+
+    .checklist .mark {
+      flex-shrink: 0;
+      font-weight: 800;
+    }
+
+    .checklist .mark.done { color: var(--ok); }
+    .checklist .mark.pending { color: var(--warn); }
+
+    .checklist .content strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <span class="tag">Backend Design</span>
+    <h1>수제 디저트 쇼핑몰 — 백엔드 설계 (Supabase)</h1>
+    <p>과제: 내 서비스에 백엔드 붙여 배포. 실제 코드와 배포 안내는 <code>dessert-shop-app/</code> 참고.</p>
+
+    <h2><span class="num">1</span>설계 한 장 (지도)</h2>
+    <pre><code>[사용자 브라우저 — 정적 사이트 (GitHub Pages)]
+ index.html / script.js
+   │
+   ├─ ① 익명 로그인 (signInAnonymously) ─────▶ [Supabase Auth]
+   │                                            auth.uid() 발급 (로그인 화면 없음)
+   │
+   ├─ ② 상품 목록 조회 (select) ─────────────▶ [Supabase DB: products]
+   │                                            RLS: 누구나 읽기만 가능
+   │
+   └─ ③ 장바구니 CRUD                    ────▶ [Supabase DB: cart_items]
+      (담기 / 조회 / 수량변경 / 삭제)          RLS: auth.uid() = user_id 인 행만 허용
+
+──────────────────────────────────────────────────────────
+(다음 단계, 이번 범위 아님) 장바구니 → 결제 PG 연동 → orders 테이블 저장</code></pre>
+    <p>프론트는 Supabase가 발급하는 REST API(PostgREST)를 <code>supabase-js</code> 클라이언트로 호출한다. 별도의 Node 서버를 직접 짜지 않고, "DB + Auth + API"를 통째로 Supabase에 위임하는 구조다.</p>
+
+    <h2><span class="num">2</span>백엔드가 꼭 필요한 기능</h2>
+    <div class="highlight"><p>저장</p></div>
+    <ul>
+      <li>장바구니에 담은 상품은 새로고침해도 남아 있어야 한다 → 브라우저 메모리(변수)로만 처리하면 새로고침 시 사라지므로, 반드시 서버(DB)에 저장해야 한다.</li>
+      <li>로그인은 화면으로는 만들지 않지만, 장바구니를 "내 것"으로 구분하기 위해 내부적으로 Supabase 익명 인증을 사용한다.</li>
+      <li>검색은 이번 범위에 포함하지 않는다 (PRD의 Out of scope와 동일).</li>
+    </ul>
+
+    <h2><span class="num">3</span>화면만으로 되는 기능</h2>
+    <p>서버 요청 없이 브라우저 안에서 즉시 처리되는 것들:</p>
+    <ul>
+      <li>카테고리 필터링 (이미 불러온 상품 목록 안에서 JS로 필터링, 재조회 없음)</li>
+      <li>상품 목록 ↔ 상세 ↔ 장바구니 화면 전환</li>
+      <li>장바구니 합계 금액 계산 (화면에 표시된 항목의 가격 × 수량 합산)</li>
+      <li>품절 상품의 "장바구니 담기" 버튼 비활성화</li>
+    </ul>
+    <p>단, 수량 변경·담기·빼기 <strong>행위 자체</strong>는 결국 DB에 반영되어야 새로고침 후에도 유지되므로, "화면 반응"과 "저장"은 분리해서 생각한다.</p>
+
+    <h2><span class="num">4</span>필요한 창구 (엔드포인트)</h2>
+    <table>
+      <thead>
+        <tr><th>테이블</th><th>허용 동작</th><th>설명</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>products</code></td>
+          <td>Read만</td>
+          <td>상품 목록 조회. 등록/수정은 대시보드로 직접 처리 (Out of scope)</td>
+        </tr>
+        <tr>
+          <td><code>cart_items</code></td>
+          <td>Full CRUD</td>
+          <td>담기(Create) · 내 장바구니 조회(Read) · 수량 변경(Update) · 삭제(Delete)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2><span class="num">5</span>다뤄야 할 비밀값</h2>
+    <table>
+      <thead>
+        <tr><th>값</th><th>어디서 쓰이나</th><th>처리 방법</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>anon key / Project URL</td>
+          <td>프론트(브라우저)</td>
+          <td><code>config.js</code>로 분리 + <code>.gitignore</code>. 원래 공개 전제 값, 실제 방어선은 RLS</td>
+        </tr>
+        <tr>
+          <td>service_role key</td>
+          <td>(이 앱에서 미사용)</td>
+          <td>절대 프론트에 넣지 않음. 서버 전용 스크립트에서만 사용</td>
+        </tr>
+        <tr>
+          <td>(다음 단계) 결제 PG 시크릿</td>
+          <td>결제 승인/검증</td>
+          <td>Edge Function 등 서버 환경변수로만 보관, 프론트 노출 금지</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2><span class="num">6</span>호스팅</h2>
+    <div class="highlight"><p>Supabase (DB + Auth + API) + 정적 프론트는 GitHub Pages</p></div>
+    <p><strong>이유</strong>: 회원가입/서버 구축 없이 Postgres·인증·RLS·자동 API를 한 번에 무료로 제공해서, 백엔드를 직접 만들지 않고도 "저장" 기능을 안전하게 구현할 수 있기 때문이다.</p>
+
+    <h2><span class="num">7</span>제출</h2>
+    <div class="card">
+      <ul>
+        <li><strong>작동 링크</strong> — <code>dessert-shop-app/README.md</code> 안내대로 Supabase 프로젝트 생성 후 배포하면 채워 넣는다 (계정 생성·키 발급은 본인이 직접 진행)</li>
+        <li><strong>확인 장면</strong> — 상품 상세에서 담기 → 새로고침 → 장바구니 화면에 그대로 남아있는지 확인</li>
+        <li><strong>설계 한 장</strong> — 위 1번 다이어그램</li>
+        <li><strong>호스팅과 이유</strong> — 위 6번</li>
+      </ul>
+    </div>
+
+    <h2><span class="num">8</span>제출 전 보안 체크</h2>
+    <ul class="checklist">
+      <li>
+        <span class="mark done">✓</span>
+        <div class="content">
+          <strong>비밀값을 코드에 직접 안 적고 환경변수로 뺐는가?</strong>
+          <code>config.js</code>로 분리, <code>.gitignore</code> 등록. service_role key는 이 앱에서 아예 미사용.
+        </div>
+      </li>
+      <li>
+        <span class="mark done">✓</span>
+        <div class="content">
+          <strong>가격·수량·권한 같은 검증을 백엔드에서 하는가?</strong>
+          <code>quantity</code>는 DB 제약조건(<code>check (quantity &gt; 0)</code>)으로 검증. 가격은 항상 <code>products</code> 테이블 값을 조인해 사용, 클라이언트가 조작 불가.
+        </div>
+      </li>
+      <li>
+        <span class="mark done">✓</span>
+        <div class="content">
+          <strong>RLS를 켜고 정책을 넣었는가?</strong>
+          <code>products</code>·<code>cart_items</code> 모두 RLS 활성화 + 정책 적용 (<code>supabase/schema.sql</code>).
+        </div>
+      </li>
+      <li>
+        <span class="mark done">✓</span>
+        <div class="content">
+          <strong>로그인이 필요한 데이터에 권한 확인(인가)이 들어가는가?</strong>
+          로그인 화면은 없지만 익명 인증의 <code>auth.uid()</code> 기준으로 RLS가 "본인 행만" 허용하도록 강제함.
+        </div>
+      </li>
+      <li>
+        <span class="mark pending">!</span>
+        <div class="content">
+          <strong>사용하는 무료 티어의 한도와 요금 알림을 아는가?</strong>
+          Supabase 무료 티어는 DB 용량·API 요청·Auth MAU에 한도가 있다. 본인 프로젝트의 Billing 페이지에서 직접 확인이 필요한 항목.
+        </div>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>

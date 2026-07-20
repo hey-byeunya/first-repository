@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수제 디저트 쇼핑몰</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <span class="logo">🍰 수제 디저트</span>
+      <button class="cart-btn" id="cart-nav-btn">장바구니 <span id="cart-count">0</span></button>
+    </header>
+
+    <div id="status-banner" class="status-banner" style="display:none;"></div>
+
+    <!-- 상품 목록 -->
+    <section class="view active" id="view-list">
+      <div class="filters" id="filters">
+        <button class="filter-pill active" data-category="전체">전체</button>
+        <button class="filter-pill" data-category="케이크">케이크</button>
+        <button class="filter-pill" data-category="쿠키">쿠키</button>
+        <button class="filter-pill" data-category="음료">음료</button>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <!-- 상품 상세 -->
+    <section class="view" id="view-detail">
+      <span class="back-link" id="back-to-list">← 목록으로</span>
+      <div class="detail-thumb" id="detail-thumb"></div>
+      <div class="detail-name" id="detail-name"></div>
+      <div class="detail-price" id="detail-price"></div>
+      <div class="detail-desc" id="detail-desc"></div>
+      <button class="btn" id="add-to-cart-btn">장바구니 담기</button>
+    </section>
+
+    <!-- 장바구니 -->
+    <section class="view" id="view-cart">
+      <span class="back-link" id="back-to-list-from-cart">← 목록으로</span>
+      <h2 style="margin-bottom:16px;">장바구니</h2>
+      <div id="cart-list"></div>
+      <div class="cart-total">
+        <span>합계</span>
+        <span id="cart-total-amount">0원</span>
+      </div>
+      <button class="btn" id="checkout-btn" disabled>주문하기 (다음 단계에서 연동 예정)</button>
+    </section>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
