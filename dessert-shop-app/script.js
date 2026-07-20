@@ -119,7 +119,13 @@ el("add-to-cart-btn").addEventListener("click", async () => {
 async function addToCart(productId) {
   const { data: { user } } = await supabaseClient.auth.getUser();
 
-  const existing = cartItems.find((c) => c.product_id === productId);
+  const { data: existing } = await supabaseClient
+    .from("cart_items")
+    .select("id, quantity")
+    .eq("user_id", user.id)
+    .eq("product_id", productId)
+    .maybeSingle();
+
   if (existing) {
     const { error } = await supabaseClient
       .from("cart_items")
