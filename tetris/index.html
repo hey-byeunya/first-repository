@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모두의 테트리스</title>
+<style>
+  :root {
+    --bg: #101014;
+    --panel: #17171d;
+    --border: #33333d;
+    --text: #e8e8ec;
+    --accent: #4f9dff;
+    --danger: #ff4f5e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .title {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #4fd0e0, #4f9dff, #c04fff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .app {
+    display: flex;
+    gap: 24px;
+    padding: 12px 24px 24px;
+  }
+  .board-wrap {
+    position: relative;
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
+  }
+  canvas#board {
+    display: block;
+    background: #000;
+    border-radius: 4px;
+  }
+  .overlay {
+    position: absolute;
+    inset: 8px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 12px;
+    background: rgba(0,0,0,0.82);
+    border-radius: 4px;
+    text-align: center;
+    padding: 20px;
+  }
+  .overlay.show { display: flex; }
+  .overlay h2 { margin: 0; font-size: 22px; }
+  .overlay button {
+    padding: 8px 20px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    cursor: pointer;
+  }
+  .overlay button:hover { filter: brightness(1.1); }
+  .overlay .btn-danger {
+    background: var(--danger);
+  }
+  .overlay input[type="text"] {
+    padding: 8px 12px;
+    font-size: 15px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    background: #222;
+    color: var(--text);
+    text-align: center;
+    width: 180px;
+    outline: none;
+  }
+  .overlay input[type="text"]:focus {
+    border-color: var(--accent);
+  }
+  .overlay .btn-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .side {
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .panel {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .panel h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9a9aa5;
+  }
+  .panel .value {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  #next-canvas {
+    display: block;
+    margin: 0 auto;
+    background: #000;
+    border-radius: 4px;
+  }
+  .controls {
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: #b8b8c2;
+  }
+  .controls b { color: var(--text); }
+  .hint {
+    font-size: 13px;
+    color: #b8b8c2;
+    margin: 0;
+  }
+
+  .records {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    width: 240px;
+  }
+  .records h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #9a9aa5;
+  }
+  .records table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+  }
+  .records th {
+    text-align: left;
+    color: #9a9aa5;
+    font-weight: 600;
+    padding: 4px 2px;
+    border-bottom: 1px solid var(--border);
+  }
+  .records td {
+    padding: 4px 2px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #ccc;
+  }
+  .records td:nth-child(1) { color: var(--text); }
+  .records td:nth-child(2) { color: var(--accent); font-weight: 600; text-align: right; }
+  .records td:nth-child(3) { text-align: right; color: #9a9aa5; }
+  .records .empty-msg {
+    color: #666;
+    font-size: 12px;
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  #restart-btn {
+    margin-top: 4px;
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+  }
+  #restart-btn:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+</style>
+</head>
+<body>
+  <div class="title">모두의 테트리스</div>
+  <div class="app">
+    <div class="board-wrap">
+      <canvas id="board" width="300" height="600"></canvas>
+      <div class="overlay" id="overlay">
+        <h2 id="overlay-title">모두의 테트리스</h2>
+        <p id="overlay-msg" class="hint"></p>
+        <input type="text" id="nickname-input" placeholder="별명을 입력하세요" maxlength="10" style="display:none;">
+        <div class="btn-row" id="overlay-buttons">
+          <button id="overlay-btn">시작하기</button>
+        </div>
+      </div>
+
+      <div class="overlay" id="confirm-overlay">
+        <h2>다시 시작할까요?</h2>
+        <p class="hint">진행 중인 게임이 초기화됩니다</p>
+        <div class="btn-row">
+          <button id="confirm-yes" class="btn-danger">확인</button>
+          <button id="confirm-no">취소</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="panel">
+        <h3>점수</h3>
+        <div class="value" id="score">0</div>
+      </div>
+      <div class="panel">
+        <h3>시간</h3>
+        <div class="value" id="timer">0:00</div>
+      </div>
+      <div class="panel">
+        <h3>레벨</h3>
+        <div class="value" id="level">1</div>
+      </div>
+      <div class="panel">
+        <h3>줄</h3>
+        <div class="value" id="lines">0</div>
+      </div>
+      <div class="panel">
+        <h3>다음 블록</h3>
+        <canvas id="next-canvas" width="100" height="100"></canvas>
+      </div>
+      <button id="restart-btn">다시하기</button>
+      <div class="panel controls">
+        <div><b>←/→</b> 이동</div>
+        <div><b>↑</b> 회전</div>
+        <div><b>↓</b> 소프트 드롭</div>
+        <div><b>Space</b> 하드 드롭</div>
+        <div><b>P</b> 일시정지</div>
+      </div>
+    </div>
+
+    <div class="records" id="records-panel">
+      <h3>점수 기록</h3>
+      <div id="records-body"></div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  const COLS = 10, ROWS = 20, CELL = 30;
+  const canvas = document.getElementById('board');
+  const ctx = canvas.getContext('2d');
+  const nextCanvas = document.getElementById('next-canvas');
+  const nextCtx = nextCanvas.getContext('2d');
+  const overlay = document.getElementById('overlay');
+  const overlayTitle = document.getElementById('overlay-title');
+  const overlayMsg = document.getElementById('overlay-msg');
+  const overlayBtn = document.getElementById('overlay-btn');
+  const nicknameInput = document.getElementById('nickname-input');
+  const confirmOverlay = document.getElementById('confirm-overlay');
+  const scoreEl = document.getElementById('score');
+  const levelEl = document.getElementById('level');
+  const linesEl = document.getElementById('lines');
+  const timerEl = document.getElementById('timer');
+  const restartBtn = document.getElementById('restart-btn');
+  const recordsBody = document.getElementById('records-body');
+
+  const COLORS = {
+    I: '#4fd0e0', J: '#4f6fff', L: '#ffab4f',
+    O: '#ffe14f', S: '#5be05b', T: '#c04fff', Z: '#ff4f5e'
+  };
+
+  const SHAPES = {
+    I: [[0,1],[1,1],[2,1],[3,1]],
+    J: [[0,0],[0,1],[1,1],[2,1]],
+    L: [[2,0],[0,1],[1,1],[2,1]],
+    O: [[0,0],[1,0],[0,1],[1,1]],
+    S: [[1,0],[2,0],[0,1],[1,1]],
+    T: [[1,0],[0,1],[1,1],[2,1]],
+    Z: [[0,0],[1,0],[1,1],[2,1]]
+  };
+
+  function rotateCells(cells) {
+    const size = 4;
+    return cells.map(([x, y]) => [y, size - 1 - x]);
+  }
+
+  function makePiece(type) {
+    return { type, cells: SHAPES[type].map(c => c.slice()), x: 3, y: 0 };
+  }
+
+  const BAG_TYPES = Object.keys(SHAPES);
+  function newBag() {
+    const bag = BAG_TYPES.slice();
+    for (let i = bag.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [bag[i], bag[j]] = [bag[j], bag[i]];
+    }
+    return bag;
+  }
+
+  let bag = [];
+  function nextType() {
+    if (bag.length === 0) bag = newBag();
+    return bag.pop();
+  }
+
+  let grid, current, nextPieceType, score, level, lines, dropInterval, dropTimer;
+  let gameOver, paused, running, lastTime, rafId;
+  let gameStartTime, elapsedSeconds, timerInterval;
+
+  function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+    return m + ':' + String(s).padStart(2, '0');
+  }
+
+  function startTimer() {
+    gameStartTime = Date.now();
+    elapsedSeconds = 0;
+    timerEl.textContent = '0:00';
+    timerInterval = setInterval(() => {
+      if (!paused) {
+        elapsedSeconds = Math.floor((Date.now() - gameStartTime) / 1000);
+        timerEl.textContent = formatTime(elapsedSeconds);
+      }
+    }, 500);
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+  }
+
+  function resetState() {
+    grid = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+    bag = [];
+    current = makePiece(nextType());
+    nextPieceType = nextType();
+    score = 0;
+    level = 1;
+    lines = 0;
+    dropInterval = 800;
+    dropTimer = 0;
+    gameOver = false;
+    paused = false;
+    updateSidebar();
+  }
+
+  function updateSidebar() {
+    scoreEl.textContent = score;
+    levelEl.textContent = level;
+    linesEl.textContent = lines;
+  }
+
+  function collides(cells, offX, offY) {
+    for (const [cx, cy] of cells) {
+      const x = current.x + cx + offX;
+      const y = current.y + cy + offY;
+      if (x < 0 || x >= COLS || y >= ROWS) return true;
+      if (y >= 0 && grid[y][x]) return true;
+    }
+    return false;
+  }
+
+  function lockPiece() {
+    for (const [cx, cy] of current.cells) {
+      const x = current.x + cx;
+      const y = current.y + cy;
+      if (y < 0) { triggerGameOver(); return; }
+      grid[y][x] = current.type;
+    }
+    clearLines();
+    spawnNext();
+  }
+
+  function clearLines() {
+    let cleared = 0;
+    for (let y = ROWS - 1; y >= 0; y--) {
+      if (grid[y].every(cell => cell)) {
+        grid.splice(y, 1);
+        grid.unshift(Array(COLS).fill(null));
+        cleared++;
+        y++;
+      }
+    }
+    if (cleared > 0) {
+      const points = [0, 100, 300, 500, 800][cleared] * level;
+      score += points;
+      lines += cleared;
+      level = 1 + Math.floor(lines / 10);
+      dropInterval = Math.max(100, 800 - (level - 1) * 70);
+      updateSidebar();
+    }
+  }
+
+  function spawnNext() {
+    current = makePiece(nextPieceType);
+    nextPieceType = nextType();
+    if (collides(current.cells, 0, 0)) triggerGameOver();
+    drawNext();
+  }
+
+  function triggerGameOver() {
+    gameOver = true;
+    running = false;
+    stopTimer();
+    if (rafId) cancelAnimationFrame(rafId);
+
+    overlayTitle.textContent = '게임 오버';
+    overlayMsg.textContent = `점수: ${score}  |  시간: ${formatTime(elapsedSeconds)}`;
+    nicknameInput.style.display = '';
+    nicknameInput.value = '';
+    overlayBtn.textContent = '기록 저장';
+    overlay.classList.add('show');
+    setTimeout(() => nicknameInput.focus(), 50);
+  }
+
+  function move(dx) {
+    if (gameOver || paused) return;
+    if (!collides(current.cells, dx, 0)) current.x += dx;
+  }
+
+  function softDrop() {
+    if (gameOver || paused) return;
+    if (!collides(current.cells, 0, 1)) {
+      current.y += 1;
+      score += 1;
+      updateSidebar();
+    } else {
+      lockPiece();
+    }
+    dropTimer = 0;
+  }
+
+  function hardDrop() {
+    if (gameOver || paused) return;
+    let dist = 0;
+    while (!collides(current.cells, 0, 1)) { current.y += 1; dist++; }
+    score += dist * 2;
+    updateSidebar();
+    lockPiece();
+    dropTimer = 0;
+  }
+
+  function rotate() {
+    if (gameOver || paused) return;
+    if (current.type === 'O') return;
+    const rotated = rotateCells(current.cells);
+    const kicks = [0, -1, 1, -2, 2];
+    for (const k of kicks) {
+      if (!collides(rotated, k, 0)) {
+        current.cells = rotated;
+        current.x += k;
+        return;
+      }
+    }
+  }
+
+  function togglePause() {
+    if (gameOver) return;
+    paused = !paused;
+    if (paused) {
+      overlayTitle.textContent = '일시정지';
+      overlayMsg.textContent = '';
+      nicknameInput.style.display = 'none';
+      overlayBtn.textContent = '계속하기';
+      overlay.classList.add('show');
+    } else {
+      overlay.classList.remove('show');
+      gameStartTime = Date.now() - elapsedSeconds * 1000;
+    }
+  }
+
+  function drawCell(c, x, y, color) {
+    const px = x * CELL, py = y * CELL;
+    c.fillStyle = color;
+    c.fillRect(px, py, CELL, CELL);
+    c.strokeStyle = 'rgba(0,0,0,0.35)';
+    c.lineWidth = 2;
+    c.strokeRect(px + 1, py + 1, CELL - 2, CELL - 2);
+    c.fillStyle = 'rgba(255,255,255,0.15)';
+    c.fillRect(px + 2, py + 2, CELL - 4, 4);
+  }
+
+  function draw() {
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    for (let y = 0; y < ROWS; y++)
+      for (let x = 0; x < COLS; x++)
+        if (grid[y][x]) drawCell(ctx, x, y, COLORS[grid[y][x]]);
+
+    if (!gameOver && current) {
+      let ghostY = current.y;
+      while (!collides(current.cells, 0, ghostY - current.y + 1)) ghostY++;
+      ctx.globalAlpha = 0.25;
+      for (const [cx, cy] of current.cells) {
+        const gy = ghostY + cy;
+        if (gy >= 0) drawCell(ctx, current.x + cx, gy, COLORS[current.type]);
+      }
+      ctx.globalAlpha = 1;
+      for (const [cx, cy] of current.cells) {
+        const y = current.y + cy;
+        if (y >= 0) drawCell(ctx, current.x + cx, y, COLORS[current.type]);
+      }
+    }
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x <= COLS; x++) {
+      ctx.beginPath(); ctx.moveTo(x * CELL, 0); ctx.lineTo(x * CELL, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y <= ROWS; y++) {
+      ctx.beginPath(); ctx.moveTo(0, y * CELL); ctx.lineTo(canvas.width, y * CELL); ctx.stroke();
+    }
+  }
+
+  function drawNext() {
+    nextCtx.fillStyle = '#000';
+    nextCtx.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
+    const cells = SHAPES[nextPieceType];
+    const size = 20;
+    const xs = cells.map(c => c[0]), ys = cells.map(c => c[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    const w = (maxX - minX + 1) * size, h = (maxY - minY + 1) * size;
+    const offX = (nextCanvas.width - w) / 2 - minX * size;
+    const offY = (nextCanvas.height - h) / 2 - minY * size;
+    for (const [cx, cy] of cells) {
+      const px = offX + cx * size, py = offY + cy * size;
+      nextCtx.fillStyle = COLORS[nextPieceType];
+      nextCtx.fillRect(px, py, size, size);
+      nextCtx.strokeStyle = 'rgba(0,0,0,0.35)';
+      nextCtx.lineWidth = 2;
+      nextCtx.strokeRect(px + 1, py + 1, size - 2, size - 2);
+    }
+  }
+
+  function loop(time) {
+    if (!running) return;
+    if (!lastTime) lastTime = time;
+    const delta = time - lastTime;
+    lastTime = time;
+    if (!paused && !gameOver) {
+      dropTimer += delta;
+      if (dropTimer >= dropInterval) {
+        dropTimer = 0;
+        if (!collides(current.cells, 0, 1)) current.y += 1;
+        else lockPiece();
+      }
+      draw();
+    }
+    rafId = requestAnimationFrame(loop);
+  }
+
+  function startGame() {
+    resetState();
+    drawNext();
+    overlay.classList.remove('show');
+    confirmOverlay.classList.remove('show');
+    nicknameInput.style.display = 'none';
+    running = true;
+    lastTime = 0;
+    stopTimer();
+    startTimer();
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(loop);
+  }
+
+  // --- Records (localStorage) ---
+  const RECORDS_KEY = 'tetris_records';
+
+  function loadRecords() {
+    try { return JSON.parse(localStorage.getItem(RECORDS_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function saveRecord(name, pts, time) {
+    const records = loadRecords();
+    records.push({ name, score: pts, time });
+    records.sort((a, b) => b.score - a.score);
+    if (records.length > 10) records.length = 10;
+    localStorage.setItem(RECORDS_KEY, JSON.stringify(records));
+    renderRecords();
+  }
+
+  function renderRecords() {
+    const records = loadRecords();
+    if (records.length === 0) {
+      recordsBody.innerHTML = '<div class="empty-msg">아직 기록이 없습니다</div>';
+      return;
+    }
+    let html = '<table><tr><th>별명</th><th>점수</th><th>시간</th></tr>';
+    for (const r of records) {
+      html += `<tr><td>${escapeHtml(r.name)}</td><td>${r.score}</td><td>${r.time}</td></tr>`;
+    }
+    html += '</table>';
+    recordsBody.innerHTML = html;
+  }
+
+  function escapeHtml(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+
+  // --- Overlay button ---
+  overlayBtn.addEventListener('click', () => {
+    if (paused && !gameOver) {
+      togglePause();
+      return;
+    }
+    if (gameOver) {
+      const name = nicknameInput.value.trim();
+      if (!name) {
+        nicknameInput.style.outline = '2px solid var(--danger)';
+        nicknameInput.focus();
+        setTimeout(() => nicknameInput.style.outline = '', 800);
+        return;
+      }
+      saveRecord(name, score, formatTime(elapsedSeconds));
+      startGame();
+      return;
+    }
+    startGame();
+  });
+
+  nicknameInput.addEventListener('keydown', (e) => {
+    e.stopPropagation();
+    if (e.key === 'Enter') overlayBtn.click();
+  });
+
+  // --- Restart button ---
+  restartBtn.addEventListener('click', () => {
+    if (!running && !gameOver) return;
+    if (running) {
+      paused = true;
+      overlay.classList.remove('show');
+    }
+    confirmOverlay.classList.add('show');
+  });
+
+  document.getElementById('confirm-yes').addEventListener('click', () => {
+    confirmOverlay.classList.remove('show');
+    startGame();
+  });
+
+  document.getElementById('confirm-no').addEventListener('click', () => {
+    confirmOverlay.classList.remove('show');
+    if (running) {
+      paused = false;
+      gameStartTime = Date.now() - elapsedSeconds * 1000;
+    }
+  });
+
+  // --- Keyboard ---
+  document.addEventListener('keydown', (e) => {
+    if (confirmOverlay.classList.contains('show')) return;
+    if (nicknameInput === document.activeElement) return;
+    switch (e.key) {
+      case 'ArrowLeft': move(-1); e.preventDefault(); break;
+      case 'ArrowRight': move(1); e.preventDefault(); break;
+      case 'ArrowUp': rotate(); e.preventDefault(); break;
+      case 'ArrowDown': softDrop(); e.preventDefault(); break;
+      case ' ': hardDrop(); e.preventDefault(); break;
+      case 'p': case 'P': togglePause(); e.preventDefault(); break;
+    }
+  });
+
+  // --- Init ---
+  overlayTitle.textContent = '모두의 테트리스';
+  overlayMsg.textContent = '방향키로 이동/회전, 스페이스로 하드 드롭';
+  overlayBtn.textContent = '시작하기';
+  overlay.classList.add('show');
+  renderRecords();
+})();
+</script>
+</body>
+</html>
