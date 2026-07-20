@@ -61,3 +61,21 @@ on conflict do nothing;
 
 -- 7. Authentication > Providers 에서 "Anonymous Sign-ins"를 켜야 이 스키마가 동작한다.
 --    (로그인 화면 없이 auth.uid()로 장바구니를 구분하기 위함)
+
+-- 8. 장바구니에 담는 동작을 원자적으로 처리하는 함수
+--    프론트에서 "있으면 수량 +1, 없으면 새로 추가"를 select 후 insert/update로 나눠서 하면
+--    두 번 빠르게 누르거나 요청이 겹칠 때 두 요청이 동시에 "없음"으로 판단해 각자 insert를 시도하다
+--    unique (user_id, product_id) 제약을 어겨 duplicate key 에러가 난다.
+--    on conflict do update로 DB가 한 번의 원자적 연산으로 처리하게 하면 이 경쟁 상태가 아예 생기지 않는다.
+create or replace function add_to_cart(p_product_id bigint, p_quantity integer default 1)
+returns void
+language sql
+security invoker
+as $$
+  insert into cart_items (user_id, product_id, quantity)
+  values (auth.uid(), p_product_id, p_quantity)
+  on conflict (user_id, product_id)
+  do update set quantity = cart_items.quantity + excluded.quantity;
+$$;
+
+grant execute on function add_to_cart(bigint, integer) to authenticated;

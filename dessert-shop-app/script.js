@@ -109,35 +109,24 @@ function openDetail(product) {
 el("back-to-list").addEventListener("click", () => switchView("view-list"));
 el("back-to-list-from-cart").addEventListener("click", () => switchView("view-list"));
 
-el("add-to-cart-btn").addEventListener("click", async () => {
+el("add-to-cart-btn").addEventListener("click", async (e) => {
   if (!currentDetailProduct) return;
+  e.target.disabled = true; // 응답 오기 전 연타로 중복 요청이 나가는 것을 막는 UI 차원의 방어
   await addToCart(currentDetailProduct.id);
   switchView("view-list");
 });
 
 // ---------- 장바구니 (Supabase cart_items 테이블에 저장 → 새로고침해도 유지) ----------
+// select로 기존 행 유무를 먼저 확인하고 insert/update를 나눠서 하면, 버튼을 두 번 빠르게
+// 누르거나 요청이 겹칠 때 두 요청 모두 "없음"으로 판단해 동시에 insert를 시도하다
+// unique (user_id, product_id) 제약을 어겨 duplicate key 에러가 날 수 있다.
+// add_to_cart RPC(schema.sql의 on conflict do update)가 DB에서 원자적으로 처리하므로 이 경쟁 상태가 없다.
 async function addToCart(productId) {
-  const { data: { user } } = await supabaseClient.auth.getUser();
-
-  const { data: existing } = await supabaseClient
-    .from("cart_items")
-    .select("id, quantity")
-    .eq("user_id", user.id)
-    .eq("product_id", productId)
-    .maybeSingle();
-
-  if (existing) {
-    const { error } = await supabaseClient
-      .from("cart_items")
-      .update({ quantity: existing.quantity + 1 })
-      .eq("id", existing.id);
-    if (error) return showStatus("장바구니 담기에 실패했습니다: " + error.message, true);
-  } else {
-    const { error } = await supabaseClient
-      .from("cart_items")
-      .insert({ user_id: user.id, product_id: productId, quantity: 1 });
-    if (error) return showStatus("장바구니 담기에 실패했습니다: " + error.message, true);
-  }
+  const { error } = await supabaseClient.rpc("add_to_cart", {
+    p_product_id: productId,
+    p_quantity: 1,
+  });
+  if (error) return showStatus("장바구니 담기에 실패했습니다: " + error.message, true);
   await loadCart();
 }
 
