@@ -1,2 +1,6 @@
 # macOS
 .DS_Store
+
+# 제외 폴더
+make-prd/
+service-prd-writer/
