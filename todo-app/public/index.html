@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>To-do</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrapper">
+    <header class="app-header">
+      <h1>To-do</h1>
+      <p class="subtitle">할 일 목록 과제</p>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button type="button" class="tab-btn active" data-tab="tasks" role="tab" aria-selected="true">할 일 목록</button>
+      <button type="button" class="tab-btn" data-tab="presets" role="tab" aria-selected="false">자주 하는 일</button>
+    </nav>
+
+    <section class="tab-panel" id="tab-tasks" role="tabpanel">
+      <div class="tasks-toolbar">
+        <button type="button" id="open-add-modal-btn" class="btn btn-primary">+ 새 할 일</button>
+      </div>
+
+      <div class="filters">
+        <input type="search" id="search-input" placeholder="제목·설명 검색">
+        <div class="status-chips" id="status-filter" role="group" aria-label="상태 필터">
+          <button type="button" class="status-chip active" data-status="">전체</button>
+          <button type="button" class="status-chip" data-status="todo">할일</button>
+          <button type="button" class="status-chip" data-status="done">완료</button>
+        </div>
+        <select id="tag-filter">
+          <option value="">전체 태그</option>
+        </select>
+        <label class="today-toggle">
+          <input type="checkbox" id="today-filter">
+          오늘 할 일만 보기
+        </label>
+        <div class="sort-control">
+          <span class="sort-icon" aria-hidden="true">⇅</span>
+          <select id="sort-select">
+            <option value="due">마감 순</option>
+            <option value="newest">최신 등록순</option>
+            <option value="oldest">오래된 순</option>
+          </select>
+        </div>
+      </div>
+
+      <ul class="task-list" id="task-list"></ul>
+      <p class="empty-state" id="empty-state" hidden>표시할 할 일이 없습니다.</p>
+    </section>
+
+    <section class="tab-panel" id="tab-presets" role="tabpanel" hidden>
+      <div class="preset-list" id="preset-list"></div>
+      <form id="preset-form" class="inline-form">
+        <input type="text" id="preset-title-input" placeholder="새 프리셋 이름 (예: 화분에 물 주기)" required>
+        <button type="submit" class="btn btn-primary btn-sm">+ 프리셋 추가</button>
+      </form>
+      <p class="form-error" id="preset-error"></p>
+    </section>
+  </div>
+
+  <dialog id="task-modal">
+    <div class="modal-header">
+      <h2 id="form-heading">할 일 추가</h2>
+      <button type="button" id="modal-close-btn" class="btn-icon modal-close-btn" aria-label="닫기">&times;</button>
+    </div>
+    <form id="task-form">
+      <div class="field-row">
+        <input type="text" id="task-title" placeholder="제목 (필수)" required>
+        <input type="date" id="task-due-date">
+      </div>
+      <textarea id="task-description" placeholder="설명 (선택)"></textarea>
+      <div class="tag-picker" id="tag-picker">
+        <span class="tag-picker-label">태그:</span>
+        <div class="tag-checkboxes" id="tag-checkboxes"></div>
+      </div>
+      <div class="new-tag-row">
+        <input type="text" id="new-tag-name" placeholder="새 태그 이름">
+        <div class="color-chips" id="new-tag-color-chips" role="group" aria-label="태그 색상 선택">
+          <button type="button" class="color-chip selected" data-color="#FFADAD" style="background:#FFADAD" aria-label="파스텔 빨강"></button>
+          <button type="button" class="color-chip" data-color="#FFD6A5" style="background:#FFD6A5" aria-label="파스텔 주황"></button>
+          <button type="button" class="color-chip" data-color="#FDE68A" style="background:#FDE68A" aria-label="파스텔 노랑"></button>
+          <button type="button" class="color-chip" data-color="#CAFFBF" style="background:#CAFFBF" aria-label="파스텔 초록"></button>
+          <button type="button" class="color-chip" data-color="#A0C4FF" style="background:#A0C4FF" aria-label="파스텔 파랑"></button>
+        </div>
+        <button type="button" id="new-tag-btn" class="btn btn-outline btn-sm">태그 만들기</button>
+      </div>
+      <div class="form-actions">
+        <button type="submit" id="task-submit-btn" class="btn btn-primary">추가</button>
+        <button type="button" id="task-cancel-btn" class="btn btn-outline">취소</button>
+      </div>
+      <p class="form-error" id="task-error"></p>
+    </form>
+  </dialog>
+
+  <dialog id="preset-edit-modal">
+    <div class="modal-header">
+      <h2>프리셋 수정</h2>
+      <button type="button" id="preset-edit-close-btn" class="btn-icon modal-close-btn" aria-label="닫기">&times;</button>
+    </div>
+    <form id="preset-edit-form" class="preset-edit-form">
+      <input type="text" id="preset-edit-title" placeholder="프리셋 이름" required>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">저장</button>
+        <button type="button" id="preset-edit-cancel-btn" class="btn btn-outline">취소</button>
+      </div>
+      <p class="form-error" id="preset-edit-error"></p>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>
