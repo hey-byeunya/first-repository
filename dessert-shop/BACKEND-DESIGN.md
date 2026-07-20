@@ -2,6 +2,8 @@
 
 과제: 내 서비스에 백엔드 붙여 배포. 실제 코드와 배포 안내는 [dessert-shop-app/](../dessert-shop-app/) 참고.
 
+**작동 확인**: https://hey-byeunya.github.io/first-repository/dessert-shop-app/
+
 ## 1. 설계 한 장 (지도)
 
 ```
