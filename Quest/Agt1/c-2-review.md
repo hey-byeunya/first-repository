@@ -1,6 +1,6 @@
 # AIFFEL Campus Code Peer Review Templete
 - 코더 : 전대진
-- 리뷰어 : AI (opencode)
+- 리뷰어 : 이정은, AI (opencode)
 
 
 # PRT(Peer Review Template)
