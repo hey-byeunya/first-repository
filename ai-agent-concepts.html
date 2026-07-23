@@ -1,0 +1,321 @@
+<title>AI 에이전트 개념 정리 — LLM · Agent · 하네스 · MCP · API</title>
+<style>
+  :root {
+    --bg: #f5f7fa;
+    --surface: #ffffff;
+    --surface-2: #eef2f7;
+    --ink: #171c26;
+    --ink-soft: #3d4759;
+    --muted: #6b7686;
+    --border: #dde3ec;
+    --border-strong: #c3ccda;
+    --accent: #0d7a86;       /* teal — 연결/포트/회로 */
+    --accent-soft: #e0f0f1;
+    --warm: #c9761b;         /* amber — 두뇌/온기 */
+    --warm-soft: #f8ecdc;
+    --violet: #5b53b5;       /* agent */
+    --violet-soft: #e9e7f6;
+    --shadow: 0 1px 2px rgba(23,28,38,.04), 0 8px 24px rgba(23,28,38,.06);
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1319;
+      --surface: #171d27;
+      --surface-2: #1e2632;
+      --ink: #eef2f8;
+      --ink-soft: #c3ccda;
+      --muted: #8a95a6;
+      --border: #2a3340;
+      --border-strong: #3a4553;
+      --accent: #3fb8c4;
+      --accent-soft: #113237;
+      --warm: #e0a24e;
+      --warm-soft: #322414;
+      --violet: #9a91ee;
+      --violet-soft: #221f3a;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f7fa; --surface: #fff; --surface-2: #eef2f7; --ink: #171c26; --ink-soft: #3d4759;
+    --muted: #6b7686; --border: #dde3ec; --border-strong: #c3ccda; --accent: #0d7a86; --accent-soft: #e0f0f1;
+    --warm: #c9761b; --warm-soft: #f8ecdc; --violet: #5b53b5; --violet-soft: #e9e7f6;
+    --shadow: 0 1px 2px rgba(23,28,38,.04), 0 8px 24px rgba(23,28,38,.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1319; --surface: #171d27; --surface-2: #1e2632; --ink: #eef2f8; --ink-soft: #c3ccda;
+    --muted: #8a95a6; --border: #2a3340; --border-strong: #3a4553; --accent: #3fb8c4; --accent-soft: #113237;
+    --warm: #e0a24e; --warm-soft: #322414; --violet: #9a91ee; --violet-soft: #221f3a;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: clamp(24px, 5vw, 64px) clamp(18px, 4vw, 40px) 96px; }
+
+  /* header */
+  .eyebrow {
+    font-size: 12.5px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 14px;
+  }
+  h1 {
+    font-size: clamp(28px, 5vw, 42px); line-height: 1.15; margin: 0 0 16px;
+    letter-spacing: -.02em; text-wrap: balance; font-weight: 800;
+  }
+  .lede { font-size: clamp(16px, 2.4vw, 18px); color: var(--ink-soft); margin: 0; max-width: 60ch; }
+  .rule { height: 1px; background: var(--border); border: 0; margin: 36px 0; }
+
+  h2 {
+    font-size: clamp(20px, 3.2vw, 25px); letter-spacing: -.015em; margin: 52px 0 6px;
+    font-weight: 800; text-wrap: balance;
+  }
+  h2 .n {
+    font-family: var(--mono); font-size: .6em; color: var(--accent);
+    font-weight: 700; margin-right: 12px; vertical-align: middle;
+  }
+  .sub { color: var(--muted); margin: 0 0 22px; font-size: 15px; }
+
+  p { margin: 0 0 14px; }
+  strong { font-weight: 700; }
+
+  /* metaphor banner */
+  .metaphor {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 26px 26px 10px; box-shadow: var(--shadow); margin-top: 8px;
+  }
+  .metaphor h3 { margin: 0 0 4px; font-size: 18px; }
+  .metaphor .sub { margin-bottom: 20px; }
+  .roles { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; }
+  .role {
+    display: grid; grid-template-columns: 46px 1fr; gap: 14px; align-items: center;
+    padding: 12px 14px; background: var(--surface-2); border-radius: 11px;
+  }
+  .role .ico { font-size: 26px; text-align: center; }
+  .role b { display: block; font-size: 15px; }
+  .role span { font-size: 13.5px; color: var(--muted); }
+
+  /* concept cards */
+  .card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+    padding: 24px; box-shadow: var(--shadow); margin-bottom: 16px;
+    border-left: 4px solid var(--tone, var(--accent));
+  }
+  .card.prompt { --tone: #b3357a; }
+  .card.llm { --tone: var(--warm); }
+  .card.agent { --tone: var(--violet); }
+  .card.harness { --tone: #c2410c; }
+  .card.skill { --tone: #3f8f3f; }
+  .card.mcp { --tone: var(--accent); }
+  .card.api { --tone: #2563a8; }
+  .chead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .chead .ico { font-size: 22px; }
+  .chead h3 { margin: 0; font-size: 19px; letter-spacing: -.01em; }
+  .chead .tag {
+    font-family: var(--mono); font-size: 11.5px; color: var(--muted);
+    background: var(--surface-2); padding: 2px 9px; border-radius: 20px; margin-left: auto;
+  }
+  .oneline { font-size: 15px; color: var(--ink-soft); margin: 8px 0 14px; }
+  .ex {
+    background: var(--surface-2); border-radius: 10px; padding: 13px 15px;
+    font-size: 13.5px; color: var(--ink-soft);
+  }
+  .ex .lbl { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 700; display:block; margin-bottom: 6px;}
+  .ex code { font-family: var(--mono); font-size: 12.5px; }
+
+  /* flow */
+  .flow { display: grid; gap: 8px; margin: 4px 0 8px; }
+  .step {
+    display: grid; grid-template-columns: 30px 1fr; gap: 14px; align-items: start;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 13px 16px;
+  }
+  .step .num {
+    font-family: var(--mono); font-weight: 700; font-size: 13px; color: #fff;
+    background: var(--accent); width: 26px; height: 26px; border-radius: 8px;
+    display: grid; place-items: center; margin-top: 1px;
+  }
+  .step b { font-size: 14.5px; }
+  .step p { margin: 2px 0 0; font-size: 13.5px; color: var(--muted); }
+
+  /* table */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--surface); min-width: 520px; }
+  th, td { text-align: left; padding: 13px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { background: var(--surface-2); font-size: 12px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+  tr:last-child td { border-bottom: 0; }
+  td b { color: var(--ink); }
+  .pill {
+    display: inline-block; font-size: 11.5px; font-weight: 700; padding: 2px 9px; border-radius: 20px;
+    font-family: var(--mono);
+  }
+  .pill.brain { background: var(--warm-soft); color: var(--warm); }
+  .pill.harn { background: var(--surface-2); color: var(--ink-soft); }
+  .pill.ag { background: var(--violet-soft); color: var(--violet); }
+  .pill.apiu { background: var(--accent-soft); color: var(--accent); }
+
+  /* service diagram */
+  .services { display: grid; gap: 14px; }
+  .svc {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 18px 20px; box-shadow: var(--shadow);
+  }
+  .svc .top { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .svc .top b { font-size: 16px; }
+  .svc .layers { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+  .svc p { margin: 6px 0 0; font-size: 13.5px; color: var(--ink-soft); }
+
+  .note {
+    background: var(--accent-soft); border-radius: 12px; padding: 15px 18px; margin: 20px 0 0;
+    font-size: 14px; color: var(--ink-soft); border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  }
+  .note b { color: var(--ink); }
+  .foot { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--border); color: var(--muted); font-size: 13px; }
+  .kbd { font-family: var(--mono); font-size: .92em; background: var(--surface-2); padding: 1px 6px; border-radius: 5px; }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">AI 에이전트 입문 · 복습 노트</p>
+  <h1>AI는 어떻게 스스로 일할까?</h1>
+  <p class="lede">두뇌 하나로는 아무것도 못 합니다. <strong>프롬프트 · LLM · Agent · 하네스 · 스킬 · MCP · API</strong>가 층층이 맞물려야 비로소 "스스로 일하는 AI"가 됩니다. 식당 하나로 전부 이해해 봅시다.</p>
+
+  <hr class="rule" />
+
+  <!-- 큰 그림 -->
+  <div class="metaphor">
+    <h3>🍽️ 하나의 비유 — "AI 요리사가 운영하는 식당"</h3>
+    <p class="sub">각 개념이 식당의 어느 부분인지 먼저 감을 잡으면, 나머지가 쉽게 붙습니다.</p>
+    <div class="roles">
+      <div class="role"><div class="ico">🧾</div><div><b>프롬프트(Prompt)</b><span>손님의 주문서 — 무엇을 할지 알려주는 지시</span></div></div>
+      <div class="role"><div class="ico">🧠</div><div><b>LLM</b><span>요리사의 두뇌 — 생각하고 판단</span></div></div>
+      <div class="role"><div class="ico">🧑‍🍳</div><div><b>Agent</b><span>요리사 본인 — 목표를 위해 스스로 일함</span></div></div>
+      <div class="role"><div class="ico">🏪</div><div><b>하네스(Harness)</b><span>주방 시설·운영 시스템 — 실제로 일하게 해주는 환경</span></div></div>
+      <div class="role"><div class="ico">📖</div><div><b>스킬(Skill)</b><span>전문 레시피북 — 특정 작업을 잘 하는 방법(노하우)</span></div></div>
+      <div class="role"><div class="ico">🔌</div><div><b>MCP</b><span>도구를 꽂는 표준 연결구 (USB 같은 규격)</span></div></div>
+      <div class="role"><div class="ico">🚪</div><div><b>API</b><span>외부와 데이터를 주고받는 납품 창구</span></div></div>
+    </div>
+  </div>
+
+  <!-- 개념별 카드 -->
+  <h2><span class="n">01</span>개념 하나씩</h2>
+  <p class="sub">역할 · 한 줄 정의 · 예시 순서로 봅니다.</p>
+
+  <div class="card prompt">
+    <div class="chead"><span class="ico">🧾</span><h3>프롬프트 (Prompt)</h3><span class="tag">모든 것의 출발점 · 입력</span></div>
+    <p class="oneline">AI에게 <strong>"무엇을 할지" 알려주는 지시</strong> = 손님의 주문서. 두뇌(LLM)에 방향과 목표를 넣어주는 입력이라, 프롬프트가 없으면 아무리 좋은 부품도 뭘 할지 모릅니다.</p>
+    <div class="ex"><span class="lbl">두 종류로 나뉨</span><b>시스템 프롬프트</b> 🍳 — 하네스가 LLM에게 미리 주는 역할·규칙 설정("너는 친절한 한국어 도우미다"). <b>사용자 프롬프트</b> 🧾 — 사용자가 그때그때 주는 요청("GUI 뜻 알려줘"). 이 둘이 합쳐져 LLM에 전달됩니다.</div>
+  </div>
+
+  <div class="card llm">
+    <div class="chead"><span class="ico">🧠</span><h3>LLM</h3><span class="tag">Large Language Model</span></div>
+    <p class="oneline">방대한 텍스트를 학습해 <strong>"다음 단어를 예측"</strong>하며 말을 이해·생성하는 AI의 <strong>두뇌</strong>. 진실보다 "그럴듯함"을 우선하는 성질이 있어요.</p>
+    <div class="ex"><span class="lbl">특징</span>똑똑하지만 혼자선 갇혀 있음 — 실시간 정보·내 파일·외부 프로그램에 직접 접근 불가. 그래서 나머지 부품이 필요합니다.</div>
+  </div>
+
+  <div class="card agent">
+    <div class="chead"><span class="ico">🧑‍🍳</span><h3>Agent</h3><span class="tag">스스로 일하는 AI</span></div>
+    <p class="oneline">목표를 받으면 <strong>스스로 계획하고, 도구를 쓰고, 여러 단계를 반복</strong>하며 끝까지 해내는 AI. 일반 LLM이 "답만" 한다면 Agent는 "실제로 수행"합니다.</p>
+    <div class="ex"><span class="lbl">예시 · "여행 계획 짜줘"</span>일반 LLM → 글로 계획을 써주고 끝. <br>Agent → ① 항공권 검색 → ② 날씨 확인 → ③ 호텔 비교 → ④ 일정표 완성. 스스로 도구를 써가며 여러 단계 수행!</div>
+  </div>
+
+  <div class="card harness">
+    <div class="chead"><span class="ico">🏪</span><h3>하네스 (Harness)</h3><span class="tag">운영 환경 · 틀</span></div>
+    <p class="oneline">두뇌(LLM)를 <strong>감싸서 실제로 굴러가게</strong> 하는 시스템. 도구 실행, 반복 루프, 결과를 받아 다음 행동을 결정하는 구조를 제공합니다.</p>
+    <div class="ex"><span class="lbl">비유 🐴</span>LLM = 힘센 말(두뇌). 하네스 = 말에 씌우는 안장·고삐·마차 연결. 말만 있으면 뛰기만 하지만, 하네스가 있어야 <strong>마차를 끌 수</strong> 있습니다.</div>
+  </div>
+
+  <div class="card skill">
+    <div class="chead"><span class="ico">📖</span><h3>스킬 (Skill)</h3><span class="tag">방법 · 노하우 (재사용)</span></div>
+    <p class="oneline">특정 작업을 잘 해내는 <strong>방법·절차를 미리 포장해둔 것</strong> = 전문 레시피북. 관련 작업이 오면 자동으로 불러와, 매번 처음부터 고민하지 않게 해줍니다.</p>
+    <div class="ex"><span class="lbl">스킬 vs MCP — 가장 헷갈리는 구분</span><b>스킬 📖 = "어떻게 하는지"</b> (방법·지식). <b>MCP 🔌 = "무엇으로 하는지"</b> (도구 연결). "된장찌개는 이 순서로 끓여라"(스킬) + "가스레인지를 연결"(MCP) → 둘이 함께 작동! 이 대화의 <code>write-prd</code>·<code>artifact-design</code>도 스킬입니다.</div>
+  </div>
+
+  <div class="card mcp">
+    <div class="chead"><span class="ico">🔌</span><h3>MCP</h3><span class="tag">Model Context Protocol</span></div>
+    <p class="oneline">AI와 외부 도구를 잇는 <strong>표준 연결 규격</strong>. Anthropic이 만든 개방형 표준으로, "AI를 위한 USB 포트"라고 생각하면 쉽습니다.</p>
+    <div class="ex"><span class="lbl">예시</span>슬랙 🔌 · 깃허브 🔌 · 데이터베이스 🔌 — 제각각 만들 필요 없이 <strong>같은 MCP 규격</strong>으로 연결. 지금 이 대화의 브라우저·디자인 도구도 MCP로 붙어 있어요.</div>
+  </div>
+
+  <div class="card api">
+    <div class="chead"><span class="ico">🚪</span><h3>API</h3><span class="tag">Application Programming Interface</span></div>
+    <p class="oneline">프로그램끼리 정보를 주고받는 <strong>창구·규칙</strong>. 식당의 주문/납품 창구처럼, 내 프로그램이 외부 서비스와 소통하는 문입니다.</p>
+    <div class="ex"><span class="lbl">예시 · 날씨 조회</span>"서울 날씨 알려줘" <code>→ [날씨 API] →</code> "맑음, 28도" 응답. MCP 서버가 내부적으로 이 API를 호출하기도 합니다.</div>
+  </div>
+
+  <!-- 헷갈리는 3형제 비교 -->
+  <h2><span class="n">02</span>가장 헷갈리는 셋 — 프롬프트 · 스킬 · MCP</h2>
+  <p class="sub">"AI에게 뭔가를 준다"는 점이 비슷해 보이지만, 주는 게 전혀 다릅니다.</p>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>구분</th><th>무엇을 주나</th><th>재사용?</th><th>비유</th></tr></thead>
+      <tbody>
+        <tr><td><b>프롬프트</b></td><td>그때그때의 <b>지시</b> (무엇을 할지)</td><td>1회성</td><td>🧾 주문서</td></tr>
+        <tr><td><b>스킬</b></td><td>작업하는 <b>방법·노하우</b> (어떻게 할지)</td><td>재사용 ✅</td><td>📖 레시피북</td></tr>
+        <tr><td><b>MCP</b></td><td>외부 <b>도구 연결</b> (무엇으로 할지)</td><td>재사용 ✅</td><td>🔌 도구 콘센트</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note"><b>한 줄 구분법</b> — 프롬프트는 <b>"무엇을"</b>, 스킬은 <b>"어떻게"</b>, MCP는 <b>"무엇으로"</b>. 예: "PRD 써줘"(프롬프트) → "PRD는 이런 순서로 쓴다"(스킬) → "문서 파일을 생성하는 도구"(MCP).</div>
+
+  <!-- 함께 작동 -->
+  <h2><span class="n">03</span>부품들이 함께 도는 순간</h2>
+  <p class="sub">“이번 주말 서울 날씨 보고 나들이 계획 세워줘” 라고 시키면 —</p>
+  <div class="flow">
+    <div class="step"><span class="num">0</span><div><b>프롬프트 🧾</b><p>사용자가 목표를 지시 — "주말 서울 날씨 보고 나들이 계획 세워줘" (모든 것의 출발점)</p></div></div>
+    <div class="step"><span class="num">1</span><div><b>Agent 🧑‍🍳</b><p>"먼저 날씨를 알아야겠다" — 스스로 계획을 세움</p></div></div>
+    <div class="step"><span class="num">2</span><div><b>하네스 🏪</b><p>날씨 도구를 실행하도록 준비·연결</p></div></div>
+    <div class="step"><span class="num">3</span><div><b>MCP 🔌</b><p>날씨 도구에 표준 규격으로 접속</p></div></div>
+    <div class="step"><span class="num">4</span><div><b>API 🚪</b><p>실제 날씨 서버에서 "맑음, 25도" 데이터를 받아옴</p></div></div>
+    <div class="step"><span class="num">5</span><div><b>LLM 🧠</b><p>"날씨 좋네 — 공원 나들이를 추천하자" 판단</p></div></div>
+    <div class="step"><span class="num">6</span><div><b>Agent 🧑‍🍳</b><p>종합해서 나들이 계획 완성 ✅</p></div></div>
+  </div>
+
+  <!-- 요약 표 -->
+  <h2><span class="n">04</span>한 문장 요약</h2>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>개념</th><th>한 문장</th><th>비유</th></tr></thead>
+      <tbody>
+        <tr><td><b>프롬프트</b></td><td>무엇을 할지 알려주는 지시 (입력·출발점)</td><td>🧾 손님 주문서</td></tr>
+        <tr><td><b>LLM</b></td><td>AI의 두뇌 (생각·판단)</td><td>🧠 요리사 두뇌</td></tr>
+        <tr><td><b>Agent</b></td><td>목표를 스스로 수행하는 AI</td><td>🧑‍🍳 요리하는 요리사</td></tr>
+        <tr><td><b>하네스</b></td><td>Agent가 작동하게 감싸주는 환경</td><td>🏪 주방·마구</td></tr>
+        <tr><td><b>스킬</b></td><td>특정 작업을 하는 방법·노하우 (재사용)</td><td>📖 전문 레시피북</td></tr>
+        <tr><td><b>MCP</b></td><td>도구를 꽂는 표준 연결구</td><td>🔌 USB 포트</td></tr>
+        <tr><td><b>API</b></td><td>외부와 데이터 주고받는 창구</td><td>🚪 납품 창구</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 서비스 매핑 -->
+  <h2><span class="n">05</span>실제 서비스로 연결하기</h2>
+  <p class="sub">이름 하나가 여러 층에 걸쳐 있다는 점이 핵심입니다.</p>
+  <div class="services">
+    <div class="svc">
+      <div class="top"><b>Claude</b><div class="layers"><span class="pill brain">LLM</span><span class="pill harn">하네스</span></div></div>
+      <p>이름이 두 가지를 동시에 가리킵니다 — Anthropic이 만든 <b>두뇌(모델)</b>이자, 그 두뇌를 감싼 <b>대화 앱</b>. claude.ai에서의 대화 = Claude 앱(하네스) 속에서 Claude LLM(두뇌)과 대화하는 것.</p>
+    </div>
+    <div class="svc">
+      <div class="top"><b>Claude Code</b><div class="layers"><span class="pill ag">Agent</span></div></div>
+      <p>Claude LLM을 두뇌로 삼은 <b>대표적인 Agent</b> — 바로 지금 이 대화 상대! 파일을 읽고, <span class="kbd">.gitignore</span>를 만들고, 커밋·푸시까지 스스로 수행합니다. 일반 LLM이면 "이렇게 하세요"라고 말만 했겠죠.</p>
+    </div>
+    <div class="svc">
+      <div class="top"><b>ChatGPT</b><div class="layers"><span class="pill brain">LLM</span><span class="pill harn">하네스</span></div></div>
+      <p>Claude와 <b>똑같은 구조</b>, 만든 회사만 다름 — 두뇌는 GPT(OpenAI), 그것을 감싼 대화 앱이 ChatGPT. "두뇌 + 이를 감싼 앱"이라는 점이 동일합니다.</p>
+    </div>
+    <div class="svc">
+      <div class="top"><b>노션 (Notion)</b><div class="layers"><span class="pill apiu">API 사용자</span></div></div>
+      <p>자기 LLM을 <b>직접 만들지 않고</b>, 외부 LLM(Claude·GPT 등)을 <b>API로 빌려 씁니다</b>. "요약해줘" 클릭 → 노션이 API로 LLM에 요청 → 결과를 문서에 표시. 수많은 앱이 이렇게 AI 기능을 붙입니다.</p>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>분류 팁 🎯</b> — 앞으로 새로운 AI 서비스를 만나면 두 가지만 물어보세요. ① "LLM을 직접 만들었나, API로 빌려 쓰나?" ② "대화만 하나, 스스로 일하나(Agent)?" 이 두 축으로 대부분의 서비스가 정리됩니다.
+  </div>
+
+  <p class="foot">복습 노트 · 입문자용 · 식당 비유로 이해하는 AI 에이전트 구조 &nbsp;·&nbsp; 프롬프트 → LLM → Agent → 하네스 → 스킬 → MCP → API</p>
+</div>

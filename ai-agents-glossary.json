@@ -1,0 +1,1288 @@
+{
+  "title": "개발·CS·AI 용어사전 — 입문자용 복습 노트",
+  "lede": "이 대화에서 배운 용어들을 비유와 함께 정리했습니다. 웹 용어는 MDN 한국어 문서를 참고했습니다.",
+  "groups": [
+    "터미널·셸 계열",
+    "개발 도구·환경",
+    "프로그래밍 언어",
+    "언어 개념",
+    "웹 기초",
+    "네트워크",
+    "데이터·보안",
+    "AI 계열"
+  ],
+  "terms": [
+    {
+      "term": "터미널",
+      "original": "Terminal",
+      "group": "터미널·셸 계열",
+      "definition": "글자를 보여주고 키 입력을 전달하는 창. 명령의 뜻을 해석하지는 않는다.",
+      "analogy": {
+        "emoji": "🍽️",
+        "text": "식당의 주문 창구. 주문을 받아 적어 전달할 뿐, 요리는 안 한다."
+      },
+      "details": [],
+      "related": [
+        "셸",
+        "프롬프트(터미널)"
+      ],
+      "references": []
+    },
+    {
+      "term": "셸",
+      "original": "Shell",
+      "group": "터미널·셸 계열",
+      "definition": "사람이 친 명령을 해석해 프로그램을 실행하는 프로그램의 계열(bash, zsh 등). 커널을 감싼 \"껍데기\".",
+      "analogy": {
+        "emoji": "🍽️",
+        "text": "웨이터. \"김치찌개 주세요\"를 알아듣고 주방에 전달한다."
+      },
+      "details": [],
+      "related": [
+        "커널",
+        "zsh·bash",
+        "터미널"
+      ],
+      "references": []
+    },
+    {
+      "term": "커널",
+      "original": "Kernel",
+      "group": "터미널·셸 계열",
+      "definition": "운영체제의 핵심. 프로그램이 CPU·메모리·디스크 같은 자원을 쓰도록 중개·통제한다.",
+      "analogy": {
+        "emoji": "👨‍🍳",
+        "text": "주방장(총괄). 요리사(프로그램)들이 화구·재료를 누가 쓸지 배분·통제한다. 직접 요리하기보다 자원을 나눠주는 관리자."
+      },
+      "details": [],
+      "related": [
+        "셸",
+        "추상화"
+      ],
+      "references": []
+    },
+    {
+      "term": "프롬프트(터미널)",
+      "original": "Prompt",
+      "group": "터미널·셸 계열",
+      "definition": "셸이 \"입력을 기다린다\"고 보여주는 표시(`$`, `%`, `#`).",
+      "analogy": {
+        "emoji": "",
+        "text": "\"이 위치에서 실행할 명령을 입력하세요\"라는 안내. 따라 치는 게 아니다."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "**설명** — `%`=zsh, `$`=bash(일반 사용자), `#`=관리자(root, 주의!)."
+        }
+      ],
+      "related": [
+        "프롬프트(AI)",
+        "sudo"
+      ],
+      "references": []
+    },
+    {
+      "term": "bin·PATH",
+      "original": "",
+      "group": "터미널·셸 계열",
+      "definition": "`bin`은 실행 파일(binary)이 담긴 폴더, `PATH`는 명령어를 찾을 때 뒤질 bin 폴더들의 목록.",
+      "analogy": {
+        "emoji": "🧰",
+        "text": "bin = 연장통, PATH = 어느 연장통을 열어볼지 정한 목록."
+      },
+      "details": [],
+      "related": [
+        "echo",
+        "터미널"
+      ],
+      "references": []
+    },
+    {
+      "term": "pwd",
+      "original": "",
+      "group": "터미널·셸 계열",
+      "definition": "Print Working Directory. 지금 있는 폴더의 경로를 출력하는 명령.",
+      "analogy": {
+        "emoji": "📍",
+        "text": "\"나 지금 어디 있지?\" 위치 확인."
+      },
+      "details": [],
+      "related": [],
+      "references": []
+    },
+    {
+      "term": "echo",
+      "original": "",
+      "group": "터미널·셸 계열",
+      "definition": "입력한 내용(또는 변수 값)을 그대로 출력하는 명령.",
+      "analogy": {
+        "emoji": "🔊",
+        "text": "메아리. `echo $SHELL`로 환경 변수 값을 확인."
+      },
+      "details": [],
+      "related": [
+        ".env",
+        "bin·PATH"
+      ],
+      "references": []
+    },
+    {
+      "term": "sudo",
+      "original": "",
+      "group": "터미널·셸 계열",
+      "definition": "Superuser DO. 명령을 관리자(root) 권한으로 실행. 강력한 만큼 신중히.",
+      "analogy": {
+        "emoji": "🔑",
+        "text": "잠긴 방에 들어갈 때만 잠깐 꺼내 쓰는 마스터 키."
+      },
+      "details": [],
+      "related": [],
+      "references": []
+    },
+    {
+      "term": "zsh·bash",
+      "original": "",
+      "group": "터미널·셸 계열",
+      "definition": "둘 다 셸. bash는 오래된 표준, zsh는 요즘 Mac 기본(자동완성·꾸미기 강력).",
+      "analogy": {
+        "emoji": "🐚",
+        "text": "같은 일을 하는 통역사, zsh가 더 편의 기능이 많은 신형."
+      },
+      "details": [],
+      "related": [
+        "셸"
+      ],
+      "references": []
+    },
+    {
+      "term": "LTS",
+      "original": "",
+      "group": "터미널·셸 계열",
+      "definition": "Long-Term Support. 오래·안정적으로 지원되는 버전.",
+      "analogy": {
+        "emoji": "🚗",
+        "text": "검증되고 정비 지원이 오래 보장되는 자동차 모델."
+      },
+      "details": [],
+      "related": [
+        "Node.js",
+        "nvm"
+      ],
+      "references": []
+    },
+    {
+      "term": "npm",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "Node Package Manager. JavaScript 패키지(라이브러리)를 설치·관리하는 도구.",
+      "analogy": {
+        "emoji": "📦",
+        "text": "앱스토어에서 앱 설치하듯 코드 부품을 설치."
+      },
+      "details": [],
+      "related": [
+        "Node.js",
+        "nvm",
+        "JSON"
+      ],
+      "references": []
+    },
+    {
+      "term": "Node.js",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "JavaScript를 브라우저 밖(컴퓨터·서버)에서 실행하는 환경(런타임). 언어가 아니라 실행 환경.",
+      "analogy": {
+        "emoji": "🎬",
+        "text": "JavaScript(배우)가 브라우저(극장)뿐 아니라 스튜디오(Node)에서도 연기하게 해줌."
+      },
+      "details": [],
+      "related": [
+        "npm",
+        "nvm",
+        "Agent"
+      ],
+      "references": []
+    },
+    {
+      "term": "Nest.js",
+      "original": "NestJS",
+      "group": "개발 도구·환경",
+      "definition": "Node.js 기반의 백엔드(서버) 프레임워크. TypeScript를 기본으로 쓰고, 구조가 체계적이라 큰 프로젝트에 강하다.",
+      "analogy": {
+        "emoji": "🏢",
+        "text": "체계 잡힌 대기업 조직. Express(자유로운 1인 사무실)와 달리 모듈·컨트롤러·서비스로 역할이 명확히 나뉘어, 커져도 안 무너진다."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "**Next.js와 이름이 비슷해 헷갈리기 쉽지만 완전히 다르다** — Next.js는 React 기반 **프론트엔드**(화면) 프레임워크, Nest.js는 Node.js 기반 **백엔드**(서버) 프레임워크다."
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "",
+              "Nest.js",
+              "Next.js"
+            ],
+            [
+              "역할",
+              "백엔드(서버) 🐱",
+              "프론트엔드(화면) ▲"
+            ],
+            [
+              "기반",
+              "Node.js + Express",
+              "React"
+            ],
+            [
+              "담당",
+              "API·데이터·로직",
+              "웹페이지·UI"
+            ]
+          ]
+        }
+      ],
+      "related": [
+        "Node.js",
+        "TypeScript",
+        "API",
+        "JSON"
+      ],
+      "references": []
+    },
+    {
+      "term": "Next.js",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "React 기반의 웹 프레임워크. 서버 사이드 렌더링(SSR)·파일 기반 라우팅·API 기능을 갖춰, React만으로는 직접 챙겨야 할 것들을 다 갖춘 상태로 제공한다.",
+      "analogy": {
+        "emoji": "🍞",
+        "text": "React가 밀가루(재료)라면 Next.js는 완성된 빵 세트 — 재료+오븐+레시피가 다 포함된 패키지."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "**Nest.js와 이름이 비슷해 헷갈리기 쉽지만 완전히 다르다** — Next.js는 React 기반 **프론트엔드**(화면) 프레임워크, Nest.js는 Node.js 기반 **백엔드**(서버) 프레임워크다."
+        },
+        {
+          "type": "paragraph",
+          "text": "핵심 기능: 서버에서 미리 페이지를 만들어 보내는 **SSR**(초기 로딩·SEO에 유리), 폴더 구조가 그대로 URL이 되는 **파일 기반 라우팅**, 프론트와 API 서버를 한 프로젝트에서 만드는 기능."
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "",
+              "Nest.js",
+              "Next.js"
+            ],
+            [
+              "역할",
+              "백엔드(서버) 🐱",
+              "프론트엔드(화면) ▲"
+            ],
+            [
+              "기반",
+              "Node.js + Express",
+              "React"
+            ],
+            [
+              "담당",
+              "API·데이터·로직",
+              "웹페이지·UI"
+            ]
+          ]
+        }
+      ],
+      "related": [
+        "Node.js",
+        "Nest.js",
+        "JavaScript",
+        "TypeScript"
+      ],
+      "references": []
+    },
+    {
+      "term": "nvm",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "Node Version Manager. Node의 여러 버전을 설치·전환하는 도구.",
+      "analogy": {
+        "emoji": "🎮",
+        "text": "게임 카트리지 갈아 끼우듯 Node 버전을 전환."
+      },
+      "details": [],
+      "related": [
+        "Node.js",
+        "LTS"
+      ],
+      "references": []
+    },
+    {
+      "term": "pip·uv",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "Python 패키지 관리 도구. pip은 기본, uv는 Rust로 만든 초고속 신형.",
+      "analogy": {
+        "emoji": "🚗",
+        "text": "pip=기본 자동차, uv=최신 전기 스포츠카(훨씬 빠름)."
+      },
+      "details": [],
+      "related": [
+        "Python",
+        "npm"
+      ],
+      "references": []
+    },
+    {
+      "term": "IDE",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "Integrated Development Environment. 코드 편집·실행·디버깅·Git을 한 프로그램에 통합.",
+      "analogy": {
+        "emoji": "🍳",
+        "text": "싱크대·불·칼·재료가 다 갖춰진 주방. 개발에만 집중."
+      },
+      "details": [],
+      "related": [
+        "LSP",
+        "diff",
+        "PR"
+      ],
+      "references": []
+    },
+    {
+      "term": "LSP",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "Language Server Protocol. 편집기가 언어를 똑똑하게 이해하도록(자동완성·오류표시) 돕는 표준.",
+      "analogy": {
+        "emoji": "🔌",
+        "text": "언어 이해의 USB. MCP가 여기서 영감을 받음."
+      },
+      "details": [],
+      "related": [
+        "IDE",
+        "MCP"
+      ],
+      "references": []
+    },
+    {
+      "term": "diff",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "difference. 두 파일/코드의 달라진 부분(추가 `+`, 삭제 `-`)을 보여주는 것.",
+      "analogy": {
+        "emoji": "📝",
+        "text": "틀린그림찾기. 다른 부분에만 동그라미."
+      },
+      "details": [],
+      "related": [
+        "PR",
+        "IDE"
+      ],
+      "references": []
+    },
+    {
+      "term": "마크다운",
+      "original": "Markdown, .md",
+      "group": "개발 도구·환경",
+      "definition": "`#`, `*`, `-` 같은 기호로 서식을 넣는 쉬운 문서 문법. 최종적으로 HTML로 변환됨.",
+      "analogy": {
+        "emoji": "🍜",
+        "text": "복잡한 요리(HTML) 대신 간단한 라면. 지금 이 답변도 마크다운."
+      },
+      "details": [],
+      "related": [
+        "CSS",
+        "PR"
+      ],
+      "references": []
+    },
+    {
+      "term": ".env",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "비밀번호·API 키 같은 민감정보와 환경 설정값을 담는 파일. 코드와 분리해 보호.",
+      "analogy": {
+        "emoji": "🔐",
+        "text": "집(코드)과 분리된 금고. 절대 Git에 올리지 말 것(.gitignore에 추가)."
+      },
+      "details": [],
+      "related": [
+        "API",
+        "JWT",
+        ".DS_Store"
+      ],
+      "references": []
+    },
+    {
+      "term": "PR",
+      "original": "Pull Request",
+      "group": "개발 도구·환경",
+      "definition": "내 코드 변경을 원본에 합쳐달라는 요청. 검토(리뷰) 후 안전하게 병합.",
+      "analogy": {
+        "emoji": "✍️",
+        "text": "조별 과제에서 \"제 부분 검토해 주세요\" 하고 제출."
+      },
+      "details": [],
+      "related": [
+        "diff",
+        "IDE"
+      ],
+      "references": []
+    },
+    {
+      "term": ".DS_Store",
+      "original": "",
+      "group": "개발 도구·환경",
+      "definition": "macOS가 폴더 보기 설정을 저장하려고 자동 생성하는 숨김 파일. 프로젝트와 무관.",
+      "analogy": {
+        "emoji": "📝",
+        "text": "Mac이 남긴 메모지. Git에는 넣지 말고 무시(.gitignore)."
+      },
+      "details": [],
+      "related": [
+        ".env"
+      ],
+      "references": []
+    },
+    {
+      "term": "Python",
+      "original": "",
+      "group": "프로그래밍 언어",
+      "definition": "읽기 쉽고 배우기 쉬운 만능 언어. AI·데이터 분석의 사실상 표준.",
+      "analogy": {
+        "emoji": "🐍",
+        "text": "영어 문장처럼 읽히는 코드. 들여쓰기로 블록을 구분."
+      },
+      "details": [],
+      "related": [
+        "pip·uv",
+        "객체"
+      ],
+      "references": []
+    },
+    {
+      "term": "JavaScript",
+      "original": "",
+      "group": "프로그래밍 언어",
+      "definition": "웹의 기본 프로그래밍 언어. 브라우저에서 동작을 담당하며, Node.js로 밖에서도 실행.",
+      "analogy": {
+        "emoji": "🧠",
+        "text": "웹페이지의 두뇌·근육(클릭 시 반응 등)."
+      },
+      "details": [],
+      "related": [
+        "TypeScript",
+        "Node.js",
+        "DOM"
+      ],
+      "references": []
+    },
+    {
+      "term": "TypeScript",
+      "original": "",
+      "group": "프로그래밍 언어",
+      "definition": "JavaScript에 타입을 더한 언어. 실수를 작성 중에 미리 잡아준다. 실행 전 JS로 변환됨.",
+      "analogy": {
+        "emoji": "🛣️",
+        "text": "가드레일·표지판이 있는 길. 결과물은 결국 JavaScript."
+      },
+      "details": [],
+      "related": [
+        "JavaScript",
+        "객체"
+      ],
+      "references": []
+    },
+    {
+      "term": "객체",
+      "original": "Object",
+      "group": "언어 개념",
+      "definition": "관련된 속성(정보)과 메서드(기능)를 하나로 묶은 것. `{ }` 안에 \"키: 값\"으로 정의.",
+      "analogy": {
+        "emoji": "📦",
+        "text": "여러 칸으로 나뉜 상자. 속성만·메서드만·빈 객체 모두 가능."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "**설명** — 메서드는 \"값이 함수인 속성\". `dog.name`(속성), `dog.bark()`(메서드)."
+        }
+      ],
+      "related": [
+        "const",
+        "JSON",
+        "해시 테이블"
+      ],
+      "references": []
+    },
+    {
+      "term": "const",
+      "original": "",
+      "group": "언어 개념",
+      "definition": "변수를 선언하는 키워드. constant(상수) = 재할당 불가. 객체 전용이 아님.",
+      "analogy": {
+        "emoji": "🏠",
+        "text": "주소가 고정된 집. 객체의 내부 속성은 바꿀 수 있어도, 다른 객체로 통째 교체는 불가."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "**설명** — const(불변, 기본) / let(가변) / var(옛날)."
+        }
+      ],
+      "related": [
+        "객체"
+      ],
+      "references": []
+    },
+    {
+      "term": "추상화",
+      "original": "Abstraction",
+      "group": "언어 개념",
+      "definition": "복잡한 내부는 숨기고 필요한 핵심만 보여주는 것.",
+      "analogy": {
+        "emoji": "🚗",
+        "text": "자동차 운전. 핸들·페달만 조작하면 되고 엔진 내부는 몰라도 됨."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "**설명** — 컴퓨터는 추상화가 겹겹이 쌓인 구조: 내 코드 → 언어 → 커널 → 기계어."
+        }
+      ],
+      "related": [
+        "커널",
+        "API"
+      ],
+      "references": []
+    },
+    {
+      "term": "GUI",
+      "original": "",
+      "group": "웹 기초",
+      "definition": "Graphical User Interface. 버튼·아이콘 등 그래픽으로 조작하는 화면 방식(↔ CLI).",
+      "analogy": {
+        "emoji": "🖱️",
+        "text": "앱 아이콘을 눈으로 보고 탭해서 여는 것."
+      },
+      "details": [],
+      "related": [],
+      "references": []
+    },
+    {
+      "term": "CSS",
+      "original": "",
+      "group": "웹 기초",
+      "definition": "Cascading Style Sheets. 웹페이지를 꾸미는 언어(색·글꼴·배치).",
+      "analogy": {
+        "emoji": "🎨",
+        "text": "집짓기의 페인트·벽지·가구 배치. HTML(뼈대)에 입힘."
+      },
+      "details": [],
+      "related": [
+        "DOM",
+        "GUI"
+      ],
+      "references": [
+        {
+          "text": "MDN — CSS",
+          "url": "https://developer.mozilla.org/ko/docs/Web/CSS"
+        }
+      ]
+    },
+    {
+      "term": "DOM",
+      "original": "",
+      "group": "웹 기초",
+      "definition": "Document Object Model. HTML을 프로그램이 다룰 수 있게 바꾼 나무(트리) 구조.",
+      "analogy": {
+        "emoji": "🎭",
+        "text": "인형극 무대. HTML(대본)로 세운 인형(DOM)을 JavaScript(조종사)가 움직임."
+      },
+      "details": [],
+      "related": [
+        "CSS",
+        "JavaScript"
+      ],
+      "references": [
+        {
+          "text": "MDN — DOM",
+          "url": "https://developer.mozilla.org/ko/docs/Web/API/Document_Object_Model/Introduction"
+        }
+      ]
+    },
+    {
+      "term": "JSON",
+      "original": "",
+      "group": "웹 기초",
+      "definition": "JavaScript Object Notation. 데이터를 주고받는 글자 형식. 키에 따옴표 필수, 함수 불가.",
+      "analogy": {
+        "emoji": "📄",
+        "text": "객체(가구)를 납작하게 포장한 배송용 설명서."
+      },
+      "details": [],
+      "related": [
+        "객체",
+        "API",
+        "npm"
+      ],
+      "references": []
+    },
+    {
+      "term": "LAN",
+      "original": "",
+      "group": "네트워크",
+      "definition": "Local Area Network. 집·건물 등 좁은 범위의 네트워크.",
+      "analogy": {
+        "emoji": "🏠",
+        "text": "아파트 단지 안 배달(빠름)."
+      },
+      "details": [],
+      "related": [
+        "WAN",
+        "사설 IP"
+      ],
+      "references": []
+    },
+    {
+      "term": "WAN",
+      "original": "",
+      "group": "네트워크",
+      "definition": "Wide Area Network. 도시·전세계 등 넓은 범위. 대표적으로 인터넷.",
+      "analogy": {
+        "emoji": "🌍",
+        "text": "도시 간 우편. 작은 LAN들이 WAN으로 연결됨."
+      },
+      "details": [],
+      "related": [
+        "LAN",
+        "HTTP"
+      ],
+      "references": []
+    },
+    {
+      "term": "사설 IP",
+      "original": "",
+      "group": "네트워크",
+      "definition": "집 안(로컬)에서만 쓰는 주소(예: 192.168.x.x). 공인 IP 부족을 해결하려고 재사용.",
+      "analogy": {
+        "emoji": "🏢",
+        "text": "회사 내선번호(겹쳐도 됨) ↔ 공인 IP는 대표번호(유일). 공유기가 자동 배정(DHCP)."
+      },
+      "details": [],
+      "related": [
+        "LAN",
+        "WAN"
+      ],
+      "references": []
+    },
+    {
+      "term": "HTTP",
+      "original": "",
+      "group": "네트워크",
+      "definition": "HyperText Transfer Protocol. 웹에서 데이터를 주고받는 통신 규약(GET/POST 등).",
+      "analogy": {
+        "emoji": "📮",
+        "text": "정해진 형식의 우편 방식. \"어떻게 전달할지\"를 정함."
+      },
+      "details": [],
+      "related": [
+        "API",
+        "JSON"
+      ],
+      "references": []
+    },
+    {
+      "term": "API",
+      "original": "",
+      "group": "네트워크",
+      "definition": "Application Programming Interface. 프로그램끼리 소통하는 창구·규칙. \"무엇을 요청할 수 있는가\".",
+      "analogy": {
+        "emoji": "🍽️",
+        "text": "식당 메뉴판+주문 시스템. 웹 API는 대부분 HTTP를 타고 소통."
+      },
+      "details": [],
+      "related": [
+        "HTTP",
+        "JSON",
+        "MCP",
+        "REST API",
+        "GraphQL"
+      ],
+      "references": [
+        {
+          "text": "MDN — Web API",
+          "url": "https://developer.mozilla.org/ko/docs/Web/API"
+        }
+      ]
+    },
+    {
+      "term": "쿼리",
+      "original": "Query",
+      "group": "데이터·보안",
+      "definition": "데이터(주로 데이터베이스)에 던지는 질문·요청(SQL 등).",
+      "analogy": {
+        "emoji": "📚",
+        "text": "도서관 사서에게 \"이런 책 찾아줘\" 하는 요청."
+      },
+      "details": [],
+      "related": [
+        "인덱스",
+        "PK"
+      ],
+      "references": []
+    },
+    {
+      "term": "인덱스",
+      "original": "Index",
+      "group": "데이터·보안",
+      "definition": "찾기 쉽게 해주는 색인·위치 번호. 배열 순번(0부터), DB 검색 속도 향상, index.html(첫 페이지) 등.",
+      "analogy": {
+        "emoji": "📑",
+        "text": "책 뒤의 찾아보기."
+      },
+      "details": [],
+      "related": [
+        "쿼리",
+        "해시 테이블",
+        "PK"
+      ],
+      "references": []
+    },
+    {
+      "term": "PK",
+      "original": "Primary Key",
+      "group": "데이터·보안",
+      "definition": "표에서 각 행을 고유하게 구분하는 대표 식별자. 유일·비어있으면 안 됨·안 바뀜.",
+      "analogy": {
+        "emoji": "🆔",
+        "text": "주민등록번호. 짝꿍 FK는 다른 표의 PK를 참조해 연결."
+      },
+      "details": [],
+      "related": [
+        "쿼리",
+        "인덱스",
+        "RLS"
+      ],
+      "references": []
+    },
+    {
+      "term": "해시",
+      "original": "Hash",
+      "group": "데이터·보안",
+      "definition": "데이터를 고정 길이의 고유값으로 바꾸는 단방향 변환. 데이터의 \"지문\".",
+      "analogy": {
+        "emoji": "🥤",
+        "text": "믹서기. 주스(해시)를 과일로 되돌릴 수 없음. 같은 입력=항상 같은 해시."
+      },
+      "details": [],
+      "related": [
+        "해시 테이블",
+        "JWT",
+        "인덱스"
+      ],
+      "references": []
+    },
+    {
+      "term": "해시 테이블",
+      "original": "Hash Table",
+      "group": "데이터·보안",
+      "definition": "해시로 저장 위치를 계산해 데이터를 초고속 저장·검색하는 자료구조.",
+      "analogy": {
+        "emoji": "🏨",
+        "text": "호텔 룸키. 이름을 계산하면 방 번호가 바로 나옴. 객체·딕셔너리가 이 원리."
+      },
+      "details": [],
+      "related": [
+        "해시",
+        "객체",
+        "인덱스"
+      ],
+      "references": []
+    },
+    {
+      "term": "ACID",
+      "original": "",
+      "group": "데이터·보안",
+      "definition": "데이터베이스가 트랜잭션(묶음 작업)을 안전하게 처리하는 4원칙: 원자성·일관성·독립성·지속성.",
+      "analogy": {
+        "emoji": "🏦",
+        "text": "꼼꼼한 은행원의 원칙. 이체는 전부 되거나 전부 취소."
+      },
+      "details": [],
+      "related": [
+        "쿼리",
+        "PK"
+      ],
+      "references": []
+    },
+    {
+      "term": "JWT",
+      "original": "",
+      "group": "데이터·보안",
+      "definition": "JSON Web Token. 로그인 증명용 디지털 출입증(헤더.페이로드.서명). 내용은 암호화 아님(민감정보 금지).",
+      "analogy": {
+        "emoji": "🎫",
+        "text": "놀이공원 팔찌. 서명으로 위조를 막음."
+      },
+      "details": [],
+      "related": [
+        "세션·토큰",
+        "해시",
+        "JSON"
+      ],
+      "references": []
+    },
+    {
+      "term": "세션·토큰",
+      "original": "",
+      "group": "데이터·보안",
+      "definition": "로그인 상태를 유지하는 두 방식. 세션은 서버가 기억, 토큰은 사용자가 정보를 보관.",
+      "analogy": {
+        "emoji": "",
+        "text": "세션 🗄️ = 클럽 회원 명부(번호표만 소지), 토큰 🎫 = 놀이공원 팔찌(정보 소지)."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "**설명** — 세션은 통제·강제로그아웃 쉬움, 토큰은 서버 부담 적고 확장 쉬움."
+        }
+      ],
+      "related": [
+        "JWT",
+        "쿠키",
+        "TTL"
+      ],
+      "references": []
+    },
+    {
+      "term": "쿠키",
+      "original": "Cookie",
+      "group": "데이터·보안",
+      "definition": "브라우저가 작은 데이터를 저장해두고 요청마다 자동 전송하는 저장 그릇.",
+      "analogy": {
+        "emoji": "🍪",
+        "text": "주머니. 세션 ID(번호표)나 토큰(팔찌)을 담는 그릇. (인증 방식과 차원이 다름!)"
+      },
+      "details": [],
+      "related": [
+        "세션·토큰",
+        "JWT"
+      ],
+      "references": []
+    },
+    {
+      "term": "TTL",
+      "original": "Time To Live",
+      "group": "데이터·보안",
+      "definition": "데이터의 유효기간. 시간이 지나면 자동 만료·삭제.",
+      "analogy": {
+        "emoji": "🥛",
+        "text": "우유 유통기한, 모래시계. 토큰의 \"강제 로그아웃 어려움\"을 보완."
+      },
+      "details": [],
+      "related": [
+        "JWT",
+        "세션·토큰",
+        "쿠키"
+      ],
+      "references": []
+    },
+    {
+      "term": "RLS",
+      "original": "Row Level Security",
+      "group": "데이터·보안",
+      "definition": "데이터베이스의 행(row) 단위 접근 제어. 각 행에 \"누가 볼 수 있는지\" 정책을 건다.",
+      "analogy": {
+        "emoji": "🔒",
+        "text": "개인 자물쇠 달린 사물함. Supabase 등에서 필수."
+      },
+      "details": [],
+      "related": [
+        "PK",
+        "JWT",
+        ".env"
+      ],
+      "references": []
+    },
+    {
+      "term": "LLM",
+      "original": "",
+      "group": "AI 계열",
+      "definition": "Large Language Model. 방대한 텍스트로 \"다음 단어 예측\"을 학습해 말을 이해·생성하는 AI 두뇌.",
+      "analogy": {
+        "emoji": "📚",
+        "text": "방대한 책을 읽은 똑똑한 조수. 진실보다 \"그럴듯함\"을 우선하는 성질."
+      },
+      "details": [],
+      "related": [
+        "RLHF",
+        "할루시네이션",
+        "Agent"
+      ],
+      "references": []
+    },
+    {
+      "term": "RLHF",
+      "original": "",
+      "group": "AI 계열",
+      "definition": "Reinforcement Learning from Human Feedback. 사람의 평가를 보상 삼아 AI를 친절·유용하게 다듬는 훈련.",
+      "analogy": {
+        "emoji": "🐕",
+        "text": "강아지 훈련. 잘하면 간식(보상)을 줘 그 방향을 강화."
+      },
+      "details": [],
+      "related": [
+        "LLM",
+        "벤치마크"
+      ],
+      "references": []
+    },
+    {
+      "term": "할루시네이션",
+      "original": "Hallucination",
+      "group": "AI 계열",
+      "definition": "AI가 틀린 정보를 사실처럼 그럴듯하게 지어내는 현상.",
+      "analogy": {
+        "emoji": "🎭",
+        "text": "답을 모르는데 자신 있게 지어내는 시험 학생. 중요한 건 반드시 검증."
+      },
+      "details": [],
+      "related": [
+        "LLM",
+        "RLHF"
+      ],
+      "references": []
+    },
+    {
+      "term": "벤치마크",
+      "original": "Benchmark",
+      "group": "AI 계열",
+      "definition": "여러 AI 모델의 성능을 같은 시험으로 측정·비교하는 표준 시험(MMLU, HumanEval 등).",
+      "analogy": {
+        "emoji": "📊",
+        "text": "AI들의 수능. 단, 높은 점수가 실무 성능을 100% 보장하진 않음."
+      },
+      "details": [],
+      "related": [
+        "LLM"
+      ],
+      "references": []
+    },
+    {
+      "term": "프롬프트(AI)",
+      "original": "Prompt",
+      "group": "AI 계열",
+      "definition": "AI에게 \"무엇을 할지\" 알려주는 지시. 모든 것의 출발점(입력).",
+      "analogy": {
+        "emoji": "🧾",
+        "text": "손님의 주문서. 시스템 프롬프트(역할 설정)+사용자 프롬프트(요청)로 나뉨."
+      },
+      "details": [],
+      "related": [
+        "LLM",
+        "Agent",
+        "프롬프트(터미널)"
+      ],
+      "references": []
+    },
+    {
+      "term": "Agent",
+      "original": "에이전트",
+      "group": "AI 계열",
+      "definition": "목표를 받으면 스스로 계획·도구사용·반복하며 끝까지 해내는 AI. (일반 LLM은 답만)",
+      "analogy": {
+        "emoji": "🧑‍🍳",
+        "text": "실제로 요리하는 요리사. Claude Code가 대표적."
+      },
+      "details": [],
+      "related": [
+        "LLM",
+        "하네스",
+        "MCP"
+      ],
+      "references": []
+    },
+    {
+      "term": "하네스",
+      "original": "Harness",
+      "group": "AI 계열",
+      "definition": "Agent가 실제로 작동하도록 감싸주는 운영 환경·틀(도구 실행, 반복 루프).",
+      "analogy": {
+        "emoji": "🐴",
+        "text": "말(LLM)에 씌우는 안장·마차 연결. 그 힘을 실제 일로 바꿔줌."
+      },
+      "details": [],
+      "related": [
+        "Agent",
+        "LLM",
+        "스킬"
+      ],
+      "references": []
+    },
+    {
+      "term": "MCP",
+      "original": "",
+      "group": "AI 계열",
+      "definition": "Model Context Protocol. AI와 외부 도구를 잇는 표준 규격(Anthropic).",
+      "analogy": {
+        "emoji": "🔌",
+        "text": "AI를 위한 USB 포트. 제각각 → 하나로 통일. LSP에서 영감."
+      },
+      "details": [],
+      "related": [
+        "API",
+        "스킬",
+        "LSP"
+      ],
+      "references": []
+    },
+    {
+      "term": "스킬",
+      "original": "Skill",
+      "group": "AI 계열",
+      "definition": "특정 작업을 잘 하는 방법·노하우를 미리 포장한 것(재사용).",
+      "analogy": {
+        "emoji": "📖",
+        "text": "전문 레시피북. MCP(도구=무엇으로)와 달리 스킬은 방법(어떻게)."
+      },
+      "details": [],
+      "related": [
+        "MCP",
+        "프롬프트(AI)",
+        "Agent"
+      ],
+      "references": []
+    },
+    {
+      "term": "MVP",
+      "original": "",
+      "group": "AI 계열",
+      "definition": "Minimum Viable Product. 핵심 기능만 담아 빠르게 만든 첫 버전.",
+      "analogy": {
+        "emoji": "🛴",
+        "text": "목표가 \"이동\"이면 킥보드부터 내놓고 반응을 봄."
+      },
+      "details": [],
+      "related": [],
+      "references": []
+    },
+    {
+      "term": "CS",
+      "original": "",
+      "group": "AI 계열",
+      "definition": "Computer Science. 컴퓨터·프로그램의 원리를 다루는 학문. \"[오늘의 CS]\" = 컴퓨터 기초 상식.",
+      "analogy": null,
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "**설명** — Customer Service(고객서비스)와 혼동 주의. 개발 맥락이면 Computer Science."
+        }
+      ],
+      "related": [],
+      "references": []
+    },
+    {
+      "term": "HTTPS",
+      "original": "HyperText Transfer Protocol Secure",
+      "group": "네트워크",
+      "definition": "HTTP에 암호화를 더한 버전. 브라우저 주소창의 자물쇠 아이콘이 이걸 의미한다.",
+      "analogy": {
+        "emoji": "🔒",
+        "text": "엽서(HTTP) 대신 봉투에 넣고 잠근 편지(HTTPS). 중간에서 누가 봐도 내용을 못 읽는다."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "자물쇠가 뜨려면 두 가지가 모두 필요하다: ① [[공개키/개인키]]로 암호화가 되는지, ② [[인증기관]]이 \"이 사이트가 진짜 맞다\"고 서명해줬는지. 암호화만 되고 서명이 없으면(자체 서명 인증서) 브라우저는 자물쇠 대신 경고를 띄운다."
+        }
+      ],
+      "related": [
+        "HTTP",
+        "공개키/개인키",
+        "TLS 핸드셰이크",
+        "인증기관"
+      ],
+      "references": [
+        {
+          "text": "MDN — HTTPS 용어 설명",
+          "url": "https://developer.mozilla.org/ko/docs/Glossary/https"
+        }
+      ]
+    },
+    {
+      "term": "공개키/개인키",
+      "original": "Public Key / Private Key (비대칭키 암호화)",
+      "group": "데이터·보안",
+      "definition": "잠그는 열쇠(공개키)와 여는 열쇠(개인키)가 서로 다른 암호화 방식.",
+      "analogy": {
+        "emoji": "📬",
+        "text": "공개키 = 누구나 편지를 넣을 수 있는 우체통 투입구(공개해도 됨). 개인키 = 그 우체통을 여는 유일한 열쇠(서버만 보유). 누구나 잠글 수 있지만, 여는 건 열쇠를 가진 사람뿐이다."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "이 방식은 안전하지만 계산이 느려서, 실제 통신에서는 접속 초반에만 이 방식으로 \"오늘 하루만 쓸 임시 열쇠(세션 키)\"를 주고받고, 그 뒤로는 빠른 대칭키 방식으로 대화한다. 이 첫 인사 과정이 [[TLS 핸드셰이크]]다."
+        }
+      ],
+      "related": [
+        "TLS 핸드셰이크",
+        "HTTPS",
+        "해시"
+      ],
+      "references": [
+        {
+          "text": "MDN — Public-key cryptography",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security"
+        }
+      ]
+    },
+    {
+      "term": "TLS 핸드셰이크",
+      "original": "TLS Handshake",
+      "group": "데이터·보안",
+      "definition": "브라우저와 서버가 접속 초반에 나누는 \"첫 인사\" 과정. 여기서 임시 세션 키를 안전하게 정한다.",
+      "analogy": {
+        "emoji": "🤝",
+        "text": "처음 만난 사람과 악수하며 신분을 확인하고 \"오늘의 암호\"를 정하는 것과 같다. 그 이후 대화는 이 암호로 빠르게 주고받는다."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "이 과정에서 서버는 [[인증기관]]이 서명한 인증서를 제시하고, 브라우저는 이를 확인한 뒤에야 자물쇠를 채운다."
+        }
+      ],
+      "related": [
+        "공개키/개인키",
+        "HTTPS",
+        "인증기관"
+      ],
+      "references": [
+        {
+          "text": "MDN — Transport Layer Security",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security"
+        }
+      ]
+    },
+    {
+      "term": "인증기관",
+      "original": "Certificate Authority, CA",
+      "group": "데이터·보안",
+      "definition": "\"이 사이트 진짜 맞아요\"라고 보증해주는 신뢰받는 제3자. 서버의 신원을 서명된 인증서로 증명해준다.",
+      "analogy": {
+        "emoji": "🛂",
+        "text": "신분증의 정부 발급 도장. 도장이 없으면 아무리 진짜처럼 생긴 신분증이라도 믿기 어렵다."
+      },
+      "details": [
+        {
+          "type": "paragraph",
+          "text": "암호화([[공개키/개인키]])와 신뢰(CA 서명)는 별개다. 서버가 CA 서명 없이 스스로 만든 \"자체 서명 인증서\"를 쓰면, 암호화는 정상 작동해도 브라우저는 신원을 확인할 수 없어 자물쇠 대신 \"연결이 비공개로 설정되지 않음\" 경고를 띄운다. 즉 자물쇠 = 암호화 + CA의 신원 보증, 둘 다 있어야 뜬다."
+        }
+      ],
+      "related": [
+        "HTTPS",
+        "TLS 핸드셰이크"
+      ],
+      "references": [
+        {
+          "text": "MDN — TLS/PKI 개요",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Transport_Layer_Security"
+        }
+      ]
+    },
+    {
+      "term": "REST API",
+      "original": "Representational State Transfer",
+      "group": "네트워크",
+      "definition": "자원마다 주소(URL)를 정해두고 HTTP 메서드(GET/POST 등)로 다루는 API 설계 방식. 가장 널리 쓰인다.",
+      "analogy": {
+        "emoji": "🍱",
+        "text": "세트 메뉴. \"1번 세트 주세요\" 하면 정해진 구성이 통째로 나온다."
+      },
+      "details": [
+        {
+          "type": "code",
+          "text": "GET  /users/1        → 1번 사용자 정보\nGET  /users/1/posts  → 1번 사용자의 글 목록\nPOST /users          → 새 사용자 생성"
+        },
+        {
+          "type": "paragraph",
+          "text": "단점은 **오버페칭**(필요 없는 데이터까지 옴)과 **언더페칭**(모자라서 여러 번 요청). `GraphQL`이 이 문제를 해결한다."
+        }
+      ],
+      "related": [
+        "GraphQL",
+        "API",
+        "HTTP",
+        "JSON"
+      ],
+      "references": [
+        {
+          "text": "MDN — REST",
+          "url": "https://developer.mozilla.org/ko/docs/Glossary/REST"
+        }
+      ]
+    },
+    {
+      "term": "GraphQL",
+      "original": "Graph Query Language",
+      "group": "네트워크",
+      "definition": "클라이언트가 **필요한 데이터 필드만** 콕 집어 요청하는 API 쿼리 언어. 보통 주소는 하나(`/graphql`)뿐이다.",
+      "analogy": {
+        "emoji": "🍽️",
+        "text": "뷔페에서 원하는 것만 골라 담기. \"이름이랑 글 제목만 주세요\" 하면 딱 그것만 온다."
+      },
+      "details": [
+        {
+          "type": "code",
+          "text": "query {\n  user(id: 1) {\n    name          # 이름만\n    posts { title }  # 글은 제목만\n  }\n}"
+        },
+        {
+          "type": "table",
+          "rows": [
+            [
+              "구분",
+              "REST",
+              "GraphQL"
+            ],
+            [
+              "엔드포인트",
+              "자원마다 여러 개",
+              "보통 하나"
+            ],
+            [
+              "데이터 양",
+              "정해진 세트",
+              "요청한 만큼만"
+            ],
+            [
+              "오버/언더페칭",
+              "자주 발생",
+              "없음"
+            ]
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "REST의 오버/언더페칭을 해결하지만, 학습 난이도와 캐싱은 REST가 더 유리하다. 데이터는 둘 다 JSON으로 주고받는다."
+        }
+      ],
+      "related": [
+        "REST API",
+        "API",
+        "JSON"
+      ],
+      "references": [
+        {
+          "text": "MDN — GraphQL",
+          "url": "https://developer.mozilla.org/ko/docs/Glossary/GraphQL"
+        }
+      ]
+    }
+  ]
+}

@@ -4,3 +4,7 @@
 # 제외 폴더
 make-prd/
 service-prd-writer/
+
+# 용어사전(glossary-builder) 생성물 — JSON이 원본, HTML은 스크립트로 재생성됨
+*-glossary.html
+용어사전.html

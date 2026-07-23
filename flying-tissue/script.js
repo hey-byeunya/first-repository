@@ -348,7 +348,7 @@ function isInsideRetryBtn(px, py) {
 function handleInput(x, y) {
   if (state === State.READY) { startGame(); return; }
   if (state === State.GAME_OVER) {
-    if (isInsideRetryBtn(x, y)) startGame();
+    if (isInsideRetryBtn(x, y)) { state = State.READY; resetTissue(); }
     return;
   }
   if (state !== State.PLAYING) return;
